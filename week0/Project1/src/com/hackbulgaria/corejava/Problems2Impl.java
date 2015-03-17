@@ -1,5 +1,6 @@
 package com.hackbulgaria.corejava;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Problems2Impl implements Problems2 {
@@ -73,24 +74,22 @@ public class Problems2Impl implements Problems2 {
         HashMap<Integer, Integer> primes = new HashMap<Integer, Integer>();
         long result = 1;
         
-        primes.put(2, 1);
-        
         for (int i = 2; i <= upperBound; ++i) {
-            boolean isPrime = true;
-            for (int key : primes.keySet()) {
-                System.out.println(key);
-                if (i % key == 0) {
-                    primes.put(key, primes.get(key) + 1);
-                    isPrime = false;
-                }
-                if (isPrime) {
-                    primes.put(key, 1);
-                    System.out.println("isPrime " + key);
+            if (isPrime(i)) {
+                primes.put(i, 1);
+            }
+            else {
+                for (int key : primes.keySet()) {
+                    if (i % key == 0) {
+                        primes.put(key, primes.get(key) + 1);
+                        break;
+                    }
                 }
             }
         }
         
         for (int key : primes.keySet()) {
+            //System.out.println(key + " " + primes.get(key));
             for (int i = 1; i < primes.get(key); ++i) {
                 result *= key;
             }
@@ -98,17 +97,31 @@ public class Problems2Impl implements Problems2 {
         
         return result;
     }
-
+    
     @Override
     public long getLargestPalindrome(long N) {
-        // TODO Auto-generated method stub
+        while (N > 0) {
+            String str = String.valueOf(N);
+            if (str.equals(new StringBuilder(str).reverse().toString())) {
+                return N;
+            }
+            --N;
+        }
         return 0;
     }
 
     @Override
     public int[] histogram(short[][] image) {
-        // TODO Auto-generated method stub
-        return null;
+        
+        int[] buckets = new int[256];
+        
+        for (int row = 0; row < image.length; ++row) {
+            for (int col = 0; col < image[row].length; ++col) {
+                buckets[image[row][col]] += 1;
+            }
+        }
+        
+        return buckets;
     }
 
     // helper method for doubleFac
@@ -142,8 +155,13 @@ public class Problems2Impl implements Problems2 {
 
     @Override
     public long pow(int a, int b) {
-        // TODO Auto-generated method stub
-        return 0;
+        if (b == 0) {
+            return 1;
+        }
+        else if (b % 2 == 0) {
+            return pow(a, b/2) * pow(a, b/2);
+        }
+        return a * pow(a, b-1);
     }
 
     @Override
