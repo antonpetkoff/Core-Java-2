@@ -1,0 +1,239 @@
+package com.hackbulgaria.corejava;
+
+import java.util.HashMap;
+
+public class Problems2Impl implements Problems2 {
+
+    @Override
+    public boolean isOdd(int number) {
+        return Math.abs(number) % 2 == 1;
+    }
+
+    @Override
+    public boolean isPrime(int number) {
+        if (number == 2) {
+            return true;
+        }
+        else if (number < 2 || (number % 2 == 0)) {
+            return false;
+        }
+        for (int i = 3; i*i <= number; i += 2) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int min(int... array) {
+        int min = array[0];
+        for (int i = 1; i < array.length; ++i) {
+            if (array[i] < min) {
+                min = array[i];
+            }
+        }
+        return min;
+    }
+
+    @Override
+    public int kthMin(int k, int[] array) {
+        if (k > array.length) {
+            return 0;
+        }
+        
+        for (int i = 1; i < array.length - 1; ++i) {
+            for (int j = 0; j < i + 1; ++j) {
+                if (array[j] > array[j+1]) {
+                    int temp = array[j];
+                    array[j] = array[j+1];
+                    array[j+1] =  temp;
+                }
+            }
+        }
+
+        return array[k - 1];
+    }
+
+    @Override
+    public float getAverage(int[] array) {
+        if (array.length == 0) {
+            return 0.0f;
+        }
+ 
+        float sum = 0;
+        for (int i = 0; i < array.length; ++i) {
+            sum += array[i];
+        }
+        return sum / array.length;
+    }
+
+    @Override
+    public long getSmallestMultiple(int upperBound) {
+        HashMap<Integer, Integer> primes = new HashMap<Integer, Integer>();
+        long result = 1;
+        
+        primes.put(2, 1);
+        
+        for (int i = 2; i <= upperBound; ++i) {
+            boolean isPrime = true;
+            for (int key : primes.keySet()) {
+                System.out.println(key);
+                if (i % key == 0) {
+                    primes.put(key, primes.get(key) + 1);
+                    isPrime = false;
+                }
+                if (isPrime) {
+                    primes.put(key, 1);
+                    System.out.println("isPrime " + key);
+                }
+            }
+        }
+        
+        for (int key : primes.keySet()) {
+            for (int i = 1; i < primes.get(key); ++i) {
+                result *= key;
+            }
+        }
+        
+        return result;
+    }
+
+    @Override
+    public long getLargestPalindrome(long N) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public int[] histogram(short[][] image) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    // helper method for doubleFac
+    public static long factorial(int n) {
+        long result = 1;
+        for (int i = 1; i <= n; ++i) {
+            result *= i;
+        }
+        return result;
+    }
+    
+    @Override
+    public long doubleFac(int n) {
+        return factorial((int)(factorial(n)));
+    }
+
+    @Override
+    public long kthFac(int k, int n) {
+        long result = 1;
+        for (int i = n; i > 0; i -= k) {
+            result *= i;
+        }
+        return result;
+    }
+
+    @Override
+    public int getOddOccurrence(int[] array) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public long pow(int a, int b) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public long maximalScalarSum(int[] a, int[] b) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public int maxSpan(int[] array) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public boolean canBalance(int[] array) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public int[][] rescale(int[][] original, int newWidth, int newHeight) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String reverseMe(String argument) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String copyEveryChar(String input, int k) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String reverseEveryWord(String arg) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean isPalindrome(String argument) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isPalindrome(int number) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public int getPalindromeLength(String input) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public int countOcurrences(String needle, String haystack) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public String decodeURL(String input) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public int sumOfNumbers(String input) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public boolean areAnagrams(String A, String B) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean hasAnagramOf(String string, String string2) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+}
