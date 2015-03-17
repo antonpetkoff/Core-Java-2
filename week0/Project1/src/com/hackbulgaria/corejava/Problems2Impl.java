@@ -1,6 +1,6 @@
 package com.hackbulgaria.corejava;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Problems2Impl implements Problems2 {
@@ -149,8 +149,21 @@ public class Problems2Impl implements Problems2 {
 
     @Override
     public int getOddOccurrence(int[] array) {
-        // TODO Auto-generated method stub
-        return 0;
+        Arrays.sort(array);
+        int count = 1, result = 0;
+        for (int i = 0; i < array.length - 1; ++i) {
+            if (array[i] == array[i+1]) {
+                ++count;
+            }
+            else {
+                if (count % 2 == 1) {
+                    result = array[i];
+                    break;
+                }
+                count = 1;
+            }
+        }
+        return result;
     }
 
     @Override
@@ -166,14 +179,30 @@ public class Problems2Impl implements Problems2 {
 
     @Override
     public long maximalScalarSum(int[] a, int[] b) {
-        // TODO Auto-generated method stub
-        return 0;
+        Arrays.sort(a);
+        Arrays.sort(b);
+        long result = 0;
+        
+        for (int i = 0; i < a.length; ++i) {
+            result += a[i] * b[i];
+        }
+        return result;
     }
 
     @Override
     public int maxSpan(int[] array) {
-        // TODO Auto-generated method stub
-        return 0;
+        int maxLen = 0, len = 0;
+        for (int left = 0; left < array.length; ++left) {
+            for (int right = array.length - 1; right > left; --right) {
+                if (array[left] == array[right]) {
+                    len = right - left + 1;
+                }
+                if (len < maxLen) {
+                    return maxLen;
+                }
+            }
+        }
+        return maxLen;
     }
 
     @Override
