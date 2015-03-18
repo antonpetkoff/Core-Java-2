@@ -1,5 +1,6 @@
 package com.hackbulgaria.corejava;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -71,28 +72,59 @@ public class Problems2Impl implements Problems2 {
 
     @Override
     public long getSmallestMultiple(int upperBound) {
-        HashMap<Integer, Integer> primes = new HashMap<Integer, Integer>();
+        HashMap<Integer, Integer> factors = new HashMap<Integer, Integer>();
+        HashMap<Integer, Integer> tempFactors;
+        ArrayList<Integer> primes = new ArrayList<Integer>();
+        int temp = 0, currPrime = 0;
         long result = 1;
         
-        for (int i = 2; i <= upperBound; ++i) {
+        // generate primes
+        for (int i = 1; i <= upperBound; ++i) {
             if (isPrime(i)) {
-                primes.put(i, 1);
-            }
-            else {
-                for (int key : primes.keySet()) {
-                    if (i % key == 0) {
-                        primes.put(key, primes.get(key) + 1);
-                        break;
-                    }
-                }
+                primes.add(i);
             }
         }
         
-        for (int key : primes.keySet()) {
-            //System.out.println(key + " " + primes.get(key));
-            for (int i = 1; i < primes.get(key); ++i) {
-                result *= key;
+        while (upperBound > 1) {
+            
+            // factorize current upperBound
+            temp = upperBound;
+            currPrime = 0;
+            tempFactors = new HashMap<Integer, Integer>();
+            while (temp > 1) {
+                if (temp % primes.get(currPrime) == 0) {
+                    if (tempFactors.containsKey(primes.get(currPrime))) {
+                        tempFactors.put(primes.get(currPrime), 1 + tempFactors.get(primes.get(currPrime)));
+                    }
+                    else {
+                        tempFactors.put(primes.get(currPrime), 1);
+                    }
+                    
+                    temp /= primes.get(currPrime);
+                }
+                else {
+                    ++currPrime;
+                }
             }
+            
+            // merge factors with tempFactors
+            for (int key : tempFactors.keySet()) {
+                if (factors.containsKey(key)) {
+                    if (factors.get(key) < tempFactors.get(key)) {
+                        factors.put(key, tempFactors.get(key));
+                    }
+                }
+                else {
+                    factors.put(key, tempFactors.get(key));
+                }
+            }
+
+            --upperBound;
+        }
+        
+        // accumulate result
+        for (int key : factors.keySet()) {
+            result *= Math.pow(key, factors.get(key));
         }
         
         return result;
@@ -196,9 +228,13 @@ public class Problems2Impl implements Problems2 {
             for (int right = array.length - 1; right > left; --right) {
                 if (array[left] == array[right]) {
                     len = right - left + 1;
-                }
-                if (len < maxLen) {
-                    return maxLen;
+
+                    if (len > maxLen) {
+                        maxLen = len;
+                    }
+                    else if (len < maxLen) {
+                        return maxLen;
+                    }
                 }
             }
         }
