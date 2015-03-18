@@ -15,11 +15,10 @@ public class Problems2Impl implements Problems2 {
     public boolean isPrime(int number) {
         if (number == 2) {
             return true;
-        }
-        else if (number < 2 || (number % 2 == 0)) {
+        } else if ((number < 2) || (number % 2 == 0)) {
             return false;
         }
-        for (int i = 3; i*i <= number; i += 2) {
+        for (int i = 3; i * i <= number; i += 2) {
             if (number % i == 0) {
                 return false;
             }
@@ -43,13 +42,13 @@ public class Problems2Impl implements Problems2 {
         if (k > array.length) {
             return 0;
         }
-        
+
         for (int i = 1; i < array.length - 1; ++i) {
             for (int j = 0; j < i + 1; ++j) {
-                if (array[j] > array[j+1]) {
+                if (array[j] > array[j + 1]) {
                     int temp = array[j];
-                    array[j] = array[j+1];
-                    array[j+1] =  temp;
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
                 }
             }
         }
@@ -62,7 +61,7 @@ public class Problems2Impl implements Problems2 {
         if (array.length == 0) {
             return 0.0f;
         }
- 
+
         float sum = 0;
         for (int i = 0; i < array.length; ++i) {
             sum += array[i];
@@ -77,16 +76,16 @@ public class Problems2Impl implements Problems2 {
         ArrayList<Integer> primes = new ArrayList<Integer>();
         int temp = 0, currPrime = 0;
         long result = 1;
-        
+
         // generate primes
         for (int i = 1; i <= upperBound; ++i) {
             if (isPrime(i)) {
                 primes.add(i);
             }
         }
-        
+
         while (upperBound > 1) {
-            
+
             // factorize current upperBound
             temp = upperBound;
             currPrime = 0;
@@ -95,38 +94,35 @@ public class Problems2Impl implements Problems2 {
                 if (temp % primes.get(currPrime) == 0) {
                     if (tempFactors.containsKey(primes.get(currPrime))) {
                         tempFactors.put(primes.get(currPrime), 1 + tempFactors.get(primes.get(currPrime)));
-                    }
-                    else {
+                    } else {
                         tempFactors.put(primes.get(currPrime), 1);
                     }
-                    
+
                     temp /= primes.get(currPrime);
-                }
-                else {
+                } else {
                     ++currPrime;
                 }
             }
-            
+
             // merge factors with tempFactors
             for (int key : tempFactors.keySet()) {
                 if (factors.containsKey(key)) {
                     if (factors.get(key) < tempFactors.get(key)) {
                         factors.put(key, tempFactors.get(key));
                     }
-                }
-                else {
+                } else {
                     factors.put(key, tempFactors.get(key));
                 }
             }
 
             --upperBound;
         }
-        
+
         // accumulate result
         for (int key : factors.keySet()) {
             result *= Math.pow(key, factors.get(key));
         }
-        
+
         return result;
     }
     
@@ -144,15 +140,15 @@ public class Problems2Impl implements Problems2 {
 
     @Override
     public int[] histogram(short[][] image) {
-        
+
         int[] buckets = new int[256];
-        
+
         for (int row = 0; row < image.length; ++row) {
             for (int col = 0; col < image[row].length; ++col) {
                 buckets[image[row][col]] += 1;
             }
         }
-        
+
         return buckets;
     }
 
@@ -167,7 +163,7 @@ public class Problems2Impl implements Problems2 {
     
     @Override
     public long doubleFac(int n) {
-        return factorial((int)(factorial(n)));
+        return factorial((int) (factorial(n)));
     }
 
     @Override
@@ -184,10 +180,9 @@ public class Problems2Impl implements Problems2 {
         Arrays.sort(array);
         int count = 1, result = 0;
         for (int i = 0; i < array.length - 1; ++i) {
-            if (array[i] == array[i+1]) {
+            if (array[i] == array[i + 1]) {
                 ++count;
-            }
-            else {
+            } else {
                 if (count % 2 == 1) {
                     result = array[i];
                     break;
@@ -202,11 +197,10 @@ public class Problems2Impl implements Problems2 {
     public long pow(int a, int b) {
         if (b == 0) {
             return 1;
+        } else if (b % 2 == 0) {
+            return pow(a, b / 2) * pow(a, b / 2);
         }
-        else if (b % 2 == 0) {
-            return pow(a, b/2) * pow(a, b/2);
-        }
-        return a * pow(a, b-1);
+        return a * pow(a, b - 1);
     }
 
     @Override
@@ -231,8 +225,7 @@ public class Problems2Impl implements Problems2 {
 
                     if (len > maxLen) {
                         maxLen = len;
-                    }
-                    else if (len < maxLen) {
+                    } else if (len < maxLen) {
                         return maxLen;
                     }
                 }
