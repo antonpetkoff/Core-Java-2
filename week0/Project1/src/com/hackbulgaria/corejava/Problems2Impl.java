@@ -236,8 +236,34 @@ public class Problems2Impl implements Problems2 {
 
     @Override
     public boolean canBalance(int[] array) {
-        // TODO Auto-generated method stub
-        return false;
+        if (array.length == 1) {
+            return false;
+        }
+        
+        int left = 0, right = array.length - 1;
+        int leftSum = array[left], rightSum = array[right];
+        while (left < right) {
+            if (leftSum == rightSum) {
+                if (right - left == 2) {
+                    System.out.println();
+                    return false;
+                }
+                
+                ++left;
+                leftSum += array[left];
+                --right;
+                rightSum += array[right];
+            } else if (leftSum < rightSum) {
+                ++left;
+                leftSum += array[left];
+            } else {
+                --right;
+                rightSum += array[right];
+            }
+        }
+
+        System.out.println();
+        return true;
     }
 
     @Override
