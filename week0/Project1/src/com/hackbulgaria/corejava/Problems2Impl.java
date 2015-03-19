@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import javax.sql.rowset.Joinable;
+
 public class Problems2Impl implements Problems2 {
 
     @Override
@@ -313,32 +315,52 @@ public class Problems2Impl implements Problems2 {
 
     @Override
     public String reverseMe(String argument) {
-        // TODO Auto-generated method stub
-        return null;
+        char[] chars = argument.toCharArray();
+        char temp;
+
+        for (int i = 0; i < chars.length / 2; ++i) {
+            temp = chars[i];
+            chars[i] = chars[chars.length - i - 1];
+            chars[chars.length - i - 1] = temp;
+        }
+
+        return String.valueOf(chars);
     }
 
     @Override
     public String copyEveryChar(String input, int k) {
-        // TODO Auto-generated method stub
-        return null;
+        char[] chars = new char[input.length() * k];
+        
+        for (int i = 0; i < input.length(); ++i) {
+            for (int j = 0; j < k; ++j) {
+                chars[i*k + j] = input.charAt(i);
+            }
+        }
+
+        return String.valueOf(chars);
     }
 
     @Override
     public String reverseEveryWord(String arg) {
-        // TODO Auto-generated method stub
-        return null;
+        String[] chunks = arg.split("\\s+");
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < chunks.length; ++i) {
+            chunks[i] = reverseMe(chunks[i]);
+            result.append(chunks[i]).append(" ");
+        }
+
+        return result.toString().trim();
     }
 
     @Override
     public boolean isPalindrome(String argument) {
-        // TODO Auto-generated method stub
-        return false;
+        return argument.equals(new StringBuilder(argument).reverse().toString());
     }
 
     @Override
     public boolean isPalindrome(int number) {
-        // TODO Auto-generated method stub
-        return false;
+        return String.valueOf(number).equals(new StringBuilder(String.valueOf(number)).reverse().toString());
     }
 
     @Override
