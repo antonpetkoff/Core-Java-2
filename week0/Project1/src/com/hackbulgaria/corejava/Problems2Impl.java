@@ -294,8 +294,21 @@ public class Problems2Impl implements Problems2 {
 
     @Override
     public int[][] rescale(int[][] original, int newWidth, int newHeight) {
-        // TODO Auto-generated method stub
-        return null;
+        int height = original.length;
+        int width = original[0].length;
+        
+        int hRatio = height / newHeight;
+        int wRatio = width / newWidth;
+        
+        int[][] newImage = new int[newHeight][newWidth];
+        
+        for (int row = 0; row < newHeight; ++row) {
+            for (int col = 0; col < newWidth; ++col) {
+                newImage[row][col] = original[row * hRatio][col * wRatio];
+            }
+        }
+        
+        return newImage;
     }
 
     @Override
