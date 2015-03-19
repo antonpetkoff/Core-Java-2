@@ -127,6 +127,34 @@ public class Problems2Impl implements Problems2 {
     }
     
     @Override
+    public long getSmallestMultipleBetter(int upperBound) {
+        int[] numbers = new int[upperBound];
+        for (int i = 0; i < upperBound; ++i) {
+            numbers[i] = i + 1;
+        }
+
+        int pivot = 1, tempFactor = 0;
+        long result = 1;
+
+        while (pivot < upperBound - 1) {
+            while (numbers[pivot] == 1) {
+                ++pivot;
+            }
+
+            tempFactor = numbers[pivot];
+            result *= tempFactor;
+
+            for (int i = pivot; i < upperBound; i += pivot + 1) {
+                numbers[i] /= tempFactor;
+            }
+
+            ++pivot;
+        }
+
+        return result;
+    }
+    
+    @Override
     public long getLargestPalindrome(long N) {
         while (N > 0) {
             String str = String.valueOf(N);
@@ -245,7 +273,6 @@ public class Problems2Impl implements Problems2 {
         while (left < right) {
             if (leftSum == rightSum) {
                 if (right - left == 2) {
-                    System.out.println();
                     return false;
                 }
                 
@@ -262,7 +289,6 @@ public class Problems2Impl implements Problems2 {
             }
         }
 
-        System.out.println();
         return true;
     }
 

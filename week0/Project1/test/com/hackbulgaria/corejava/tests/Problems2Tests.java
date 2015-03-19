@@ -78,6 +78,12 @@ public class Problems2Tests {
         assertEquals(2520, problems2.getSmallestMultiple(10));
         assertEquals(232792560, problems2.getSmallestMultiple(20));
     }
+    
+    @Test
+    public void testGetSmallestMultipleBetter() {
+        assertEquals(2520, problems2.getSmallestMultipleBetter(10));
+        assertEquals(232792560, problems2.getSmallestMultipleBetter(20));
+    }
 
     @Test
     public void testGetLargestPalindrome() {

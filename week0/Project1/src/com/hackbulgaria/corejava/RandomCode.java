@@ -2,38 +2,44 @@ package com.hackbulgaria.corejava;
 
 public class RandomCode {
 
-    public static boolean canBalance(int... array) {
-        if (array.length == 1) {
-            return false;
+    public static long getSmallestMultipleBetter(int upperBound) {
+        int[] numbers = new int[upperBound];
+        for (int i = 0; i < upperBound; ++i) {
+            numbers[i] = i + 1;
         }
         
-        int left = 0, right = array.length - 1;
-        int diff = array[left] - array[right];
-        while (left < right) {
-            System.out.println(left + " " + right + " " + diff);
-            if (diff == 0) {
-                if (right - left == 2) {
-                    return false;
-                }
-                
-                ++left;
-                --right;
-                diff = array[left] - array[right];
-            } else if (diff < 0) {
-                ++left;
-                diff = Math.abs(diff) - array[left];
-            } else {
-                --right;
-                diff = Math.abs(diff) - array[right];
+        int pivot = 1, tempFactor = 0;
+        long result = 1;
+        
+        while (pivot < upperBound - 1) {
+            while (numbers[pivot] == 1) {
+                ++pivot;
             }
+
+            tempFactor = numbers[pivot];
+            result *= tempFactor;
+
+            for (int i = pivot; i < upperBound; i += pivot + 1) {
+                System.out.println(i);
+                numbers[i] /= tempFactor;
+            }
+            
+            System.out.print("pivot = " + pivot + ": ");
+            for (int i = 0; i < upperBound; ++i) {
+                System.out.print(numbers[i] + " ");
+            }
+            System.out.println();
+
+            ++pivot;
+            System.out.println("Pivot now is = " + pivot);
         }
-        
-        return true;
+
+        return result;
     }
     
     public static void main(String[] args) {
         
-        System.out.println(canBalance(1, 1, 1, 2, 1));
+        System.out.println(getSmallestMultipleBetter(10));
         
     }
     
