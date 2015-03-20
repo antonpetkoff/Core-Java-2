@@ -380,7 +380,7 @@ public class Problems2Impl implements Problems2 {
 
     @Override
     public int countOcurrences(String needle, String haystack) {
-        // TODO Auto-generated method stub
+        
         return 0;
     }
 
@@ -392,8 +392,16 @@ public class Problems2Impl implements Problems2 {
 
     @Override
     public int sumOfNumbers(String input) {
-        // TODO Auto-generated method stub
-        return 0;
+        String[] numbers = input.split("[a-zA-Z\\s]+");
+        int sum = 0;
+        
+        for (String s : numbers) {
+            if (!s.isEmpty()) {
+                sum += Integer.valueOf(s);
+            }
+        }
+        
+        return sum;
     }
 
     @Override
