@@ -386,8 +386,8 @@ public class Problems2Impl implements Problems2 {
 
     @Override
     public String decodeURL(String input) {
-        // TODO Auto-generated method stub
-        return null;
+        return input.replaceAll("%20", " ").replaceAll("%3A", ":")
+                    .replaceAll("%3D", "?").replaceAll("%2F", "/");
     }
 
     @Override

@@ -1,27 +1,18 @@
 package com.hackbulgaria.corejava;
 
 public class RandomCode {
-    
-    public static int sumOfNumbers(String input) {
-        String[] numbers = input.split("[a-zA-Z\\s]+");
-        int sum = 0;
+     
+    public static void main(String[] args) {
+        String str = "kitten%20pic.jpg";
+        String[] splitted = str.split("%\\w{2}");
+        String result = str.replaceAll("%20", " ").replaceAll("%3A", ":")
+                           .replaceAll("%3D", "?").replaceAll("%2F", "/");
         
-        for (String s : numbers) {
+        for (String s : splitted) {
             System.out.println(s);
         }
         
-        for (String s : numbers) {
-            if (!s.isEmpty()) {
-                sum += Integer.parseInt(s);
-            }
-        }
-        
-        return sum;
-    }
-    
-    public static void main(String[] args) {
-        String str = "000 three five -1 1";
-        System.out.println(sumOfNumbers(str));
+        System.out.println(result);
     }
     
 }
