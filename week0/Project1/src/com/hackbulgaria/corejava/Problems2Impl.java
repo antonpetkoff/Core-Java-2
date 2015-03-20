@@ -365,8 +365,17 @@ public class Problems2Impl implements Problems2 {
 
     @Override
     public int getPalindromeLength(String input) {
-        // TODO Auto-generated method stub
-        return 0;
+        int count = 0;
+
+        for (int i = input.length() / 2; i > 0; --i) {
+            if (input.charAt(i - 1) == input.charAt(input.length() - i)) {
+                ++count;
+            } else {
+                break;
+            }
+        }
+
+        return count;
     }
 
     @Override
