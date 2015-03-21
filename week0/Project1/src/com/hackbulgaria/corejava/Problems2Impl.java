@@ -389,7 +389,7 @@ public class Problems2Impl implements Problems2 {
 
     @Override
     public int sumOfNumbers(String input) {
-        String[] numbers = input.split("[a-zA-Z\\s]+");
+        String[] numbers = input.replaceAll("[^-\\d]", " ").replaceAll("-{2,}", "").split("\\s+");
         int sum = 0;
         
         for (String s : numbers) {
