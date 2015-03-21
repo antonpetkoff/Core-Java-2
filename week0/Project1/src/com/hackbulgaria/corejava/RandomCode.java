@@ -1,18 +1,30 @@
 package com.hackbulgaria.corejava;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class RandomCode {
-     
-    public static void main(String[] args) {
-        String str = "kitten%20pic.jpg";
-        String[] splitted = str.split("%\\w{2}");
-        String result = str.replaceAll("%20", " ").replaceAll("%3A", ":")
-                           .replaceAll("%3D", "?").replaceAll("%2F", "/");
+    
+    public static int sumOfNumbers(String input) {
+        String[] numbers = input.split("(?!-)\\D+");
+        int sum = 0;
         
-        for (String s : splitted) {
-            System.out.println(s);
+        for (String number : numbers) {
+            System.out.println(number);
         }
         
-        System.out.println(result);
+        for (String s : numbers) {
+            if (!s.isEmpty()) {
+                sum += Integer.valueOf(s);
+            }
+        }
+        
+        return sum;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(sumOfNumbers("000 three five -1 1"));
     }
     
 }

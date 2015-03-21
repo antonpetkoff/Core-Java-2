@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import javax.sql.rowset.Joinable;
-
 public class Problems2Impl implements Problems2 {
 
     @Override
@@ -380,8 +378,7 @@ public class Problems2Impl implements Problems2 {
 
     @Override
     public int countOcurrences(String needle, String haystack) {
-        
-        return 0;
+        return (haystack.length() - haystack.replaceAll(needle, "").length())/needle.length();
     }
 
     @Override
@@ -406,13 +403,19 @@ public class Problems2Impl implements Problems2 {
 
     @Override
     public boolean areAnagrams(String A, String B) {
-        // TODO Auto-generated method stub
-        return false;
+        char[] a = A.toCharArray(), b = B.toCharArray();
+        Arrays.sort(a);
+        Arrays.sort(b);
+        return String.valueOf(a).equals(String.valueOf(b));
     }
 
     @Override
     public boolean hasAnagramOf(String string, String string2) {
-        // TODO Auto-generated method stub
+        for (int i = 0; i < string2.length() - string.length() + 1; ++i) {
+            if (areAnagrams(string, string2.substring(i, i + string.length()))) {
+                return true;
+            }
+        }
         return false;
     }
 
