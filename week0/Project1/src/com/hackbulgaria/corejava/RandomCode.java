@@ -1,9 +1,5 @@
 package com.hackbulgaria.corejava;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class RandomCode {
     
     public static int sumOfNumbers(String input) {

@@ -224,7 +224,7 @@ public class Problems2Tests {
     public void testCopyCharacter(){
         assertEquals("aaa", problems2.copyEveryChar("a", 3));
         assertEquals("aabbaadd", problems2.copyEveryChar("abad", 2));
-        assertEquals("Wwhhaatt  tthhee  hheellll", problems2.copyEveryChar("What the hell", 2));
+        assertEquals("WWhhaatt  tthhee  hheellll", problems2.copyEveryChar("What the hell", 2));
     }
     
     @Test
