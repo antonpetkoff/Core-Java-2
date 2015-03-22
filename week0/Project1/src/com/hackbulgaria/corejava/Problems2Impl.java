@@ -120,12 +120,13 @@ public class Problems2Impl implements Problems2 {
 
         // accumulate result
         for (int key : factors.keySet()) {
-            result *= Math.pow(key, factors.get(key));
+            result *= pow(key, factors.get(key));
         }
 
         return result;
     }
     
+    // better solution for getSmallestMultiple
     @Override
     public long getSmallestMultipleBetter(int upperBound) {
         int[] numbers = new int[upperBound];
@@ -291,7 +292,21 @@ public class Problems2Impl implements Problems2 {
 
         return true;
     }
-
+    
+    // helper method for rescale: [xLeft, yTop] and [xRight, yBottom] are inclusive
+    @Override
+    public int sumMatrix(int[][] matrix, int xLeft, int yTop, int xRight, int yBottom) {
+        int sum = 0;
+        
+        for (int row = xLeft; row <= yBottom; ++row) {
+            for (int col = yTop; col <= xRight; ++col) {
+                sum += matrix[row][col];
+            }
+        }
+        
+        return sum;
+    }
+    
     @Override
     public int[][] rescale(int[][] original, int newWidth, int newHeight) {
         int height = original.length;
@@ -299,6 +314,7 @@ public class Problems2Impl implements Problems2 {
         
         int hRatio = height / newHeight;
         int wRatio = width / newWidth;
+        
         
         int[][] newImage = new int[newHeight][newWidth];
         

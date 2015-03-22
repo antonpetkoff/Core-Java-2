@@ -12,7 +12,8 @@ public interface Problems2 {
     float getAverage(int[] array);
 
     long getSmallestMultiple(int upperBound);
-
+    
+    // better solution for getSmallestMultiple
     long getSmallestMultipleBetter(int upperBound);
 
     long getLargestPalindrome(long N);
@@ -33,6 +34,9 @@ public interface Problems2 {
 
     boolean canBalance(int[] array);
 
+    // helper method for rescale
+    int sumMatrix(int[][] matrix, int x, int y, int height, int width);
+    
     int[][] rescale(int[][] original, int newWidth, int newHeight);
 
     String reverseMe(String argument);

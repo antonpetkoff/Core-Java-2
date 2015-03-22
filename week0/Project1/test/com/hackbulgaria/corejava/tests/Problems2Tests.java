@@ -79,6 +79,7 @@ public class Problems2Tests {
         assertEquals(232792560, problems2.getSmallestMultiple(20));
     }
     
+    // better solution for getSmallestMultiple
     @Test
     public void testGetSmallestMultipleBetter() {
         assertEquals(2520, problems2.getSmallestMultipleBetter(10));
@@ -170,6 +171,24 @@ public class Problems2Tests {
         assertTrue(problems2.canBalance(new int[] { 10, 10 }));
     }
 
+    // helper method for rescale
+    @Test
+    public void testSumMatrix() {
+        int[][] matrix = {
+                {1, 1, 2, 2},
+                {1, 1, 2, 2},
+                {3, 3, 4, 4},
+                {3, 3, 4, 4}
+        };
+        
+        assertEquals(problems2.sumMatrix(matrix, 2, 2, 3, 3), 16);
+        assertEquals(problems2.sumMatrix(matrix, 1, 1, 2, 2), 10);
+        assertEquals(problems2.sumMatrix(matrix, 0, 0, 2, 1), 8);
+        assertEquals(problems2.sumMatrix(matrix, 0, 0, 1, 2), 10);
+        assertEquals(problems2.sumMatrix(matrix, 1, 1, 2, 3), 17);
+        assertEquals(problems2.sumMatrix(matrix, 0, 1, 1, 3), 8);
+    }
+    
     @Test
     public void testRescale() {
         final int[][] original = new int[100][100];
