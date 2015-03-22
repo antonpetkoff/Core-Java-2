@@ -35,7 +35,7 @@ public interface Problems2 {
     boolean canBalance(int[] array);
 
     // helper method for rescale
-    int sumMatrix(int[][] matrix, int x, int y, int height, int width);
+    int averageMatrix(int[][] matrix, int x, int y, int height, int width);
     
     int[][] rescale(int[][] original, int newWidth, int newHeight);
 

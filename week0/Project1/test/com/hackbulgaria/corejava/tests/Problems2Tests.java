@@ -173,7 +173,7 @@ public class Problems2Tests {
 
     // helper method for rescale
     @Test
-    public void testSumMatrix() {
+    public void testAverageMatrix() {
         int[][] matrix = {
                 {1, 1, 2, 2},
                 {1, 1, 2, 2},
@@ -181,32 +181,56 @@ public class Problems2Tests {
                 {3, 3, 4, 4}
         };
         
-        assertEquals(problems2.sumMatrix(matrix, 2, 2, 3, 3), 16);
-        assertEquals(problems2.sumMatrix(matrix, 1, 1, 2, 2), 10);
-        assertEquals(problems2.sumMatrix(matrix, 0, 0, 2, 1), 8);
-        assertEquals(problems2.sumMatrix(matrix, 0, 0, 1, 2), 10);
-        assertEquals(problems2.sumMatrix(matrix, 1, 1, 2, 3), 17);
-        assertEquals(problems2.sumMatrix(matrix, 0, 1, 1, 3), 8);
+        assertEquals(problems2.averageMatrix(matrix, 2, 2, 3, 3), 4);
+        assertEquals(problems2.averageMatrix(matrix, 1, 1, 2, 2), 2);
+        assertEquals(problems2.averageMatrix(matrix, 0, 0, 2, 1), 1);
+        assertEquals(problems2.averageMatrix(matrix, 0, 0, 1, 2), 1);
+        assertEquals(problems2.averageMatrix(matrix, 1, 1, 2, 3), 2);
+        assertEquals(problems2.averageMatrix(matrix, 0, 1, 1, 3), 2);
     }
     
     @Test
     public void testRescale() {
-        final int[][] original = new int[100][100];
-        int counter = 0;
-        for (int y = 0; y < original.length; y++) {
-            for (int x = 0; x < original[0].length; x++) {
-                original[y][x] = counter++;
-            }
-        }
-
-        final int newWidth = 10;
-        final int newHeight = 10;
-
-        final int[][] newImage = problems2.rescale(original, newWidth, newHeight);
-        assertEquals(newImage[0][0], original[0][0]);
-        assertEquals(newImage[9][9], original[90][90]);
-        assertEquals(newImage[0][9], original[0][90]);
-        assertEquals(newImage[9][0], original[90][0]);
+//        final int[][] original = new int[100][100];
+//        int counter = 0;
+//        for (int y = 0; y < original.length; y++) {
+//            for (int x = 0; x < original[0].length; x++) {
+//                original[y][x] = counter++;
+//            }
+//        }
+//
+//        final int newWidth = 10;
+//        final int newHeight = 10;
+//
+//        final int[][] newImage = problems2.rescale(original, newWidth, newHeight);
+//        assertEquals(newImage[0][0], original[0][0]);
+//        assertEquals(newImage[9][9], original[90][90]);
+//        assertEquals(newImage[0][9], original[0][90]);
+//        assertEquals(newImage[9][0], original[90][0]);
+        
+        // New tests:
+        
+        int[][] matrix = {
+                {1, 1, 1, 2, 2, 2},
+                {1, 1, 1, 2, 2, 2},
+                {1, 1, 1, 2, 2, 2},
+                {3, 3, 3, 4, 4, 4},
+                {3, 3, 3, 4, 4, 4},
+                {3, 3, 3, 4, 4, 4}
+         };
+        
+        int[][] result = problems2.rescale(matrix, 2, 2);
+        assertEquals(result[0][0], 1);
+        assertEquals(result[0][1], 2);
+        assertEquals(result[1][0], 3);
+        assertEquals(result[1][1], 4);
+        
+        result = problems2.rescale(matrix, 3, 3);
+        assertEquals(result[0][0], 1);
+        assertEquals(result[0][2], 2);
+        assertEquals(result[1][0], 2);
+        assertEquals(result[1][2], 3);
+        assertEquals(result[2][2], 4);
     }
 
     @Test

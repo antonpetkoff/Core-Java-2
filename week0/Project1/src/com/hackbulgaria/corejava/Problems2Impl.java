@@ -295,16 +295,16 @@ public class Problems2Impl implements Problems2 {
     
     // helper method for rescale: [xLeft, yTop] and [xRight, yBottom] are inclusive
     @Override
-    public int sumMatrix(int[][] matrix, int xLeft, int yTop, int xRight, int yBottom) {
+    public int averageMatrix(int[][] matrix, int xLeft, int yTop, int xRight, int yBottom) {
         int sum = 0;
-        
+
         for (int row = xLeft; row <= yBottom; ++row) {
             for (int col = yTop; col <= xRight; ++col) {
                 sum += matrix[row][col];
             }
         }
         
-        return sum;
+        return sum / ((yBottom - xLeft + 1) * (xRight - yTop + 1));
     }
     
     @Override
@@ -312,15 +312,18 @@ public class Problems2Impl implements Problems2 {
         int height = original.length;
         int width = original[0].length;
         
-        int hRatio = height / newHeight;
-        int wRatio = width / newWidth;
-        
+        float hRatio = height / (float) (newHeight);
+        float wRatio = width / (float) (newWidth);
         
         int[][] newImage = new int[newHeight][newWidth];
         
-        for (int row = 0; row < newHeight; ++row) {
-            for (int col = 0; col < newWidth; ++col) {
-                newImage[row][col] = original[row * hRatio][col * wRatio];
+        if (hRatio > 1 && wRatio > 1) {     // scale down
+            for (int row = 0; row < newHeight; ++row) {
+                for (int col = 0; col < newWidth; ++col) {
+                    newImage[row][col] = averageMatrix(original, 
+                        row * (int) (hRatio), col * (int) (wRatio),
+                        (col + 1) * (int) (wRatio) - 1, (row + 1) * (int) (hRatio) - 1);
+                }
             }
         }
         
