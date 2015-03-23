@@ -1,5 +1,7 @@
 package com.hackbulgaria.corejava;
 
+import java.io.IOException;
+
 public interface Problems2 {
     boolean isOdd(int number);
 
@@ -60,4 +62,6 @@ public interface Problems2 {
     boolean areAnagrams(String A, String B);
 
     boolean hasAnagramOf(String string, String string2);
+    
+    void convertToGreyScale(String imgPath) throws IOException;
 }

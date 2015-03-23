@@ -1,8 +1,16 @@
 package com.hackbulgaria.corejava;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.regex.Pattern;
+
+import javax.imageio.ImageIO;
 
 public class Problems2Impl implements Problems2 {
 
@@ -436,6 +444,36 @@ public class Problems2Impl implements Problems2 {
             }
         }
         return false;
+    }
+    
+    @Override
+    public void convertToGreyScale(String imgPath) throws IOException {
+        String regex = "^.*\\.(jpg|JPG|png|PNG|bmp|BMP)$";
+        if (!Pattern.compile(regex).matcher(imgPath).matches()) {
+            return;
+        }
+        
+        BufferedImage image = ImageIO.read(Files.newInputStream(Paths.get(imgPath)));
+        
+        int newRed, newGreen, newBlue, grey;
+        for (int row = 0; row < image.getWidth(); ++row) {
+            for (int col = 0; col < image.getHeight(); ++col) {
+                Color color = new Color(image.getRGB(row, col));
+                
+                grey = (int) Math.round(0.2126 * color.getRed())
+                     + (int) Math.round(0.7152 * color.getGreen())
+                     + (int) Math.round(0.0722 * color.getBlue());
+
+                newRed      = (grey << 16) & 0x00FF0000;
+                newGreen    = (grey << 8)  & 0x0000FF00;
+                newBlue     =  grey        & 0x000000FF;
+                
+                //                      alpha   +   red     + green     + blue
+                image.setRGB(row, col, 0xFF000000 | newRed | newGreen | newBlue);
+            }
+        }
+        
+        ImageIO.write(image, "jpg", Files.newOutputStream(Paths.get(imgPath)));
     }
 
 }
