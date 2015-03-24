@@ -7,7 +7,7 @@ public class FaultyProblem5 {
         long limit = n;
         for (long i = 2; i <= limit; i++) {
             res *= i;
-            if (i == limit && k > 0) {
+            if (i == limit && k > 1) {
                 k--;
                 limit = res;
             }
