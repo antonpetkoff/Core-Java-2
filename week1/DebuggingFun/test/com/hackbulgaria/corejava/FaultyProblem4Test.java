@@ -21,7 +21,7 @@ public class FaultyProblem4Test {
     @Test
     public void testAgainFloats(){
         assertTrue(FaultyProblem4.areEqual(0/6, 0/5));
-        assertTrue(FaultyProblem4.areEqual(401/399, 1/(399/401)));
+        assertTrue(FaultyProblem4.areEqual(401/399, (int) (1/(399.0/401.0))) );
     }
 
     @Test
