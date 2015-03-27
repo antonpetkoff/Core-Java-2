@@ -37,5 +37,14 @@ public class ProblemsImpl implements Problems {
         
         return result.toString();
     }
+
+    @Override
+    public String reduceFilePath(String path) {
+        //path = path.replaceAll("\\.(?=[^\\./])", "");
+        path = path.replaceAll("(?<=/)\\.(?=/)", "");
+        //path = path.replaceAll("(?<=.+)/.{0}", "");
+        path = path.replaceAll("/{2,}", "/");
+        return path;
+    }
     
 }

@@ -6,4 +6,6 @@ public interface Problems {
     
     String stichMeUp(Object glue, Object... elements);
     
+    String reduceFilePath(String path);
+    
 }
