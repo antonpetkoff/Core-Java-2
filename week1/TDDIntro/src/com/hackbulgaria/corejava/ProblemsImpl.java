@@ -18,5 +18,11 @@ public class ProblemsImpl implements Problems {
         
         return count;
     }
+
+    @Override
+    public String stichMeUp(Object glue, Object... elements) {
+        // TODO Auto-generated method stub
+        return null;
+    }
     
 }
