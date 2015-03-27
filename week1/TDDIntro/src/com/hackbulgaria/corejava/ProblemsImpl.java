@@ -21,8 +21,21 @@ public class ProblemsImpl implements Problems {
 
     @Override
     public String stichMeUp(Object glue, Object... elements) {
-        // TODO Auto-generated method stub
-        return null;
+        if (elements.length == 0) {
+            return "";
+        }
+        if (elements.length == 1) {
+            return elements[0].toString();
+        }
+        
+        StringBuilder result = new StringBuilder();
+        
+        for (int i = 0; i < elements.length - 1; ++i) {
+            result.append(elements[i].toString()).append(glue.toString());
+        }
+        result.append(elements[elements.length - 1].toString());
+        
+        return result.toString();
     }
     
 }
