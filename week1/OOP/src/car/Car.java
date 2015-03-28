@@ -11,11 +11,11 @@ public abstract class Car {
     public abstract void steer();
     
     public void accelerate() {
-        System.out.println("vroom vroom");
+        System.out.println("Car vroom vroom");
     }
     
     public void stop() {
-        System.out.println("stop");
+        System.out.println("Car stop");
     }
     
 }
