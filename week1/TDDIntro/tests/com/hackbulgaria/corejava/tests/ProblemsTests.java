@@ -33,13 +33,14 @@ public class ProblemsTests {
 
     @Test
     public void testReduceFilePath() {
+        assertEquals("/", problems.reduceFilePath("//////////////"));
         assertEquals("/", problems.reduceFilePath("/"));
         assertEquals("/", problems.reduceFilePath("/srv/../"));
-        assertEquals("/srv/www/htdocs/wtf/", problems.reduceFilePath("/srv/www/htdocs/wtf/"));
+        assertEquals("/srv/www/htdocs/wtf", problems.reduceFilePath("/srv/www/htdocs/wtf/"));
+        assertEquals("/srv/www/htdocs/wtf", problems.reduceFilePath("/srv/www/htdocs/wtf"));
         assertEquals("/srv", problems.reduceFilePath("/srv/./././././"));
-        assertEquals("/etc/wtf/", problems.reduceFilePath("/etc//wtf/"));
+        assertEquals("/etc/wtf", problems.reduceFilePath("/etc//wtf/"));
         assertEquals("/", problems.reduceFilePath("/etc/../etc/../etc/../"));
-        assertEquals("/", problems.reduceFilePath("//////////////"));
         assertEquals("/", problems.reduceFilePath("/../"));
     }
 }

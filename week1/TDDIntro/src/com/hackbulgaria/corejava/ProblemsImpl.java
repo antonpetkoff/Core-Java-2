@@ -1,5 +1,7 @@
 package com.hackbulgaria.corejava;
 
+import java.util.Stack;
+
 public class ProblemsImpl implements Problems {
 
     @Override
@@ -40,11 +42,30 @@ public class ProblemsImpl implements Problems {
 
     @Override
     public String reduceFilePath(String path) {
-        //path = path.replaceAll("\\.(?=[^\\./])", "");
-        path = path.replaceAll("(?<=/)\\.(?=/)", "");
-        //path = path.replaceAll("(?<=.+)/.{0}", "");
         path = path.replaceAll("/{2,}", "/");
-        return path;
+        
+        if (path.length() == 1) {
+            return path;
+        }
+        
+        StringBuilder result = new StringBuilder();
+        String[] terms = path.split("/");           // leaves empty strings and "/"
+
+        for (int i = 0; i < terms.length; ++i) {
+            if (terms[i].equals(".") || terms[i].equals("..") 
+                || terms[i].isEmpty() || terms[i].equals("/")) {
+                continue;
+            }
+            
+            if ((i + 1 < terms.length) && (terms[i + 1].equals(".."))) {
+                terms[i] = terms[i+1] = "";
+                continue;
+            }
+            
+            result.append("/" + terms[i]);
+        }
+        
+        return result.length() == 0 ? "/" : result.toString();
     }
     
 }
