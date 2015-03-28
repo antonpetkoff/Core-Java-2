@@ -42,5 +42,20 @@ public class ProblemsTests {
         assertEquals("/etc/wtf", problems.reduceFilePath("/etc//wtf/"));
         assertEquals("/", problems.reduceFilePath("/etc/../etc/../etc/../"));
         assertEquals("/", problems.reduceFilePath("/../"));
+        assertEquals("/", problems.reduceFilePath("/..///"));
+    }
+    
+    @Test
+    public void testReduceFilePathRegex() {
+        assertEquals("/", problems.reduceFilePathRegex("//////////////"));
+        assertEquals("/", problems.reduceFilePathRegex("/"));
+        assertEquals("/", problems.reduceFilePathRegex("/srv/../"));
+        assertEquals("/srv/www/htdocs/wtf", problems.reduceFilePathRegex("/srv/www/htdocs/wtf/"));
+        assertEquals("/srv/www/htdocs/wtf", problems.reduceFilePathRegex("/srv/www/htdocs/wtf"));
+        assertEquals("/srv", problems.reduceFilePathRegex("/srv/./././././"));
+        assertEquals("/etc/wtf", problems.reduceFilePathRegex("/etc//wtf/"));
+        assertEquals("/", problems.reduceFilePathRegex("/etc/../etc/../etc/../"));
+        assertEquals("/", problems.reduceFilePathRegex("/../"));
+        assertEquals("/", problems.reduceFilePathRegex("/..///"));
     }
 }

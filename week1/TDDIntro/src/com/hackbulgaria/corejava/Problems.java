@@ -8,4 +8,6 @@ public interface Problems {
     
     String reduceFilePath(String path);
     
+    String reduceFilePathRegex(String path);
+    
 }

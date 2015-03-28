@@ -1,7 +1,5 @@
 package com.hackbulgaria.corejava;
 
-import java.util.Stack;
-
 public class ProblemsImpl implements Problems {
 
     @Override
@@ -66,6 +64,20 @@ public class ProblemsImpl implements Problems {
         }
         
         return result.length() == 0 ? "/" : result.toString();
+    }
+
+    @Override
+    public String reduceFilePathRegex(String path) {
+        path = path.replaceAll("/{2,}", "/");       // remove duplicating splitters /
+        path = path.replaceAll("/.+/\\.{2}", "");   // handle ..'s
+        path = path.replaceAll("/\\./", "");        // handle .'s
+        path = path.replaceAll("\\.", "");          // clean up remaining .'s
+
+        if (path.length() == 1) {
+            return "/";
+        }
+        
+        return path.charAt(path.length() - 1) == '/' ? path.substring(0, path.length() - 1) : path;
     }
     
 }
