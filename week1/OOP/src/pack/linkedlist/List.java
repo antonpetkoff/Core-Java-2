@@ -1,28 +1,30 @@
 package pack.linkedlist;
 
-public interface List {
+public interface List<T> {
 
     int size();
     
     boolean isEmpty();
     
-    int getFirst();
+    T getFirst();
     
-    int getLast();
+    T getLast();
     
-    int get(int index);
+    T get(int index);
     
-    void add(int index, int elem);
+    void append(T elem);
     
-    //void addFirst();
+    void add(int index, T elem);
     
-    //void addLast();
+    //void addFirst(T elem);
     
-    void set(int index, int elem);
+    //void addLast(T elem);
+    
+    void set(int index, T elem);
     
     void remove(int index);
     
-    boolean contains(int elem);
+    boolean contains(T elem);
     
     void clear();
 }
