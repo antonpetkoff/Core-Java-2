@@ -5,7 +5,7 @@ package pack.linkedlist;
  */
 public class LinkedList<T> implements List<T> {
 
-    class ListNode {
+    protected class ListNode {
         T item;
         ListNode next;
         ListNode prev;
@@ -42,22 +42,30 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public T get(int index) {
-        if (index < 0 || index >= size) {
-            throw new IllegalArgumentException("get(int): index out of range!");
-        }
-
-        ListNode temp = first;
-        int i = 0;
-        while (i != index) {
-            temp = temp.next;
-            ++i;
-        }
-
-        return temp.item;
+        checkIndexBounds(index);
+        return getNodeAt(index).item;
     }
 
     @Override
-    public void append(T elem) {
+    public void addFirst(T elem) {
+        ListNode newNode = new ListNode();
+        newNode.item = elem;
+        newNode.prev = null;
+        
+        if (size == 0) {
+            newNode.next = null;
+            first = last = newNode;
+        } else {
+            newNode.next = first;
+            first.prev = newNode;
+            first = newNode;
+        }
+        
+        ++size;
+    }
+    
+    @Override
+    public void addLast(T elem) {
         ListNode newNode = new ListNode();
         newNode.item = elem;
         newNode.next = null;
@@ -74,16 +82,48 @@ public class LinkedList<T> implements List<T> {
         ++size;
     }
 
+    
+    /**
+     * Inserts the specified element at the specified position in this list.
+     * Shifts the element currently at that position (if any) and any subsequent
+     * elements to the right (adds one to their indices).
+     * 
+     * If the index you pass equals the list's size, the add() method calls
+     * addLast() method.
+     *
+     * @param index
+     *            index at which the specified element is to be inserted
+     * @param element
+     *            element to be inserted
+     */
     @Override
     public void add(int index, T elem) {
-        // TODO Auto-generated method stub
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("add(int index, T elem): index out of bounds!");
+        }
+        
+        if (index == size) {
+            addLast(elem);
+        } else if (index == 0) {
+            addFirst(elem);
+        } else {
+            ListNode pivotNode = getNodeAt(index);
+            ListNode newNode = new ListNode();
 
+            newNode.item = elem;
+            newNode.next = pivotNode;
+            newNode.prev = pivotNode.prev;
+
+            pivotNode.prev.next = newNode;
+            pivotNode.prev = newNode;
+            ++size;
+        }
     }
 
     @Override
     public void set(int index, T elem) {
-        // TODO Auto-generated method stub
-
+        checkIndexBounds(index);
+        getNodeAt(index).item = elem;
     }
 
     @Override
@@ -102,6 +142,38 @@ public class LinkedList<T> implements List<T> {
     public void clear() {
         // TODO Auto-generated method stub
 
+    }
+    
+    private void checkIndexBounds(int index) {
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("get(int): index out of range!");
+        }
+    }
+    
+    protected ListNode getNodeAt(int index) {
+        // check if index in bounds
+        
+        ListNode temp;
+
+        if (index < size / 2) {
+            temp = first;
+            int i = 0;
+
+            while (i != index) {
+                temp = temp.next;
+                ++i;
+            }
+        } else {
+            temp = last;
+            int i = size - 1;
+
+            while (i != index) {
+                temp = temp.prev;
+                --i;
+            }
+        }
+
+        return temp;
     }
 
 }

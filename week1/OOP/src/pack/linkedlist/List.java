@@ -11,14 +11,12 @@ public interface List<T> {
     T getLast();
     
     T get(int index);
+
+    void addFirst(T elem);
     
-    void append(T elem);
+    void addLast(T elem);
     
     void add(int index, T elem);
-    
-    //void addFirst(T elem);
-    
-    //void addLast(T elem);
     
     void set(int index, T elem);
     
