@@ -1,4 +1,4 @@
-package stackimpl;
+package pack.stack;
 
 public interface Stack<T> {
     

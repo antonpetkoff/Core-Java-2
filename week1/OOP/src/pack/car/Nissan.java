@@ -1,4 +1,4 @@
-package car;
+package pack.car;
 
 public class Nissan extends Car implements RearWheelDrive {
 

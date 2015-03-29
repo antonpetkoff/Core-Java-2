@@ -1,4 +1,4 @@
-package pair;
+package pack.pair;
 
 final public class Pair {
 
@@ -51,15 +51,5 @@ final public class Pair {
     public String toString() {
         return "(" + this.left.toString() + "," + this.right.toString() + ")";
     }
-    
-    public static void main(String[] args) {
-        Pair one = new Pair(123, 1.5);
-        Pair two = new Pair(123, 1.5);
-        Pair three = new Pair("asd", true);
-        
-        System.out.println(one.equals(two));
-        System.out.println(two.equals(three));
-        System.out.println(two.toString());
-        System.out.println(three.toString());
-    }    
+       
 }

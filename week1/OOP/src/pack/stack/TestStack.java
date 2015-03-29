@@ -1,4 +1,4 @@
-package stackimpl;
+package pack.stack;
 
 import static org.junit.Assert.assertEquals;
 

@@ -1,4 +1,4 @@
-package car;
+package pack.car;
 
 public class Audi extends Car implements GetProperties, AllWheelDrive {
 
