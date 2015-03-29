@@ -1,40 +1,48 @@
 package time;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class Time {
 
-    private int hh, mm, ss;
-    private int DD, MM, YY;
-    
+    private final int[] dateTime = new int[6];
+
     public Time(int hh, int mm, int ss, int DD, int MM, int YY) {
-        this.hh = hh;
-        this.mm = mm;
-        this.ss = ss;
-        this.DD = DD;
-        this.MM = MM;
-        this.YY = YY;
+        this.dateTime[0] = hh;
+        this.dateTime[1] = mm;
+        this.dateTime[2] = ss;
+        this.dateTime[3] = DD;
+        this.dateTime[4] = MM;
+        this.dateTime[5] = YY;
     }
-    
+
     public String now() {
-        return getCurrentDateAndTime();
+        return CurrentDateFactory.getCurrentDate();
     }
-    
-    private String getCurrentDateAndTime() {
-        return (new SimpleDateFormat("hh:mm:ss dd.MM.YY")).format(new Date());
-    }
-    
+
     @Override
     public String toString() {
-        return String.format("%d:%d:%d %d.%d.%d", hh, mm, ss, DD, MM, YY);
+        String[] pieces = new String[6];
+        
+        for (int i = 0; i < dateTime.length; i++) {
+            pieces[i] = toTwoDigits(dateTime[i]);
+        }
+        
+        return String.format("%s:%s:%s %s.%s.%s", (Object[]) pieces);
     }
     
-    
+    private static String toTwoDigits(int number) {
+        String result = String.valueOf(number);
+        
+        if (result.length() == 2) {
+            return result;
+        } else if (result.length() < 2) {
+            return "0" + result;
+        }
+        return result.substring(result.length() - 2, result.length());
+    }
+
     public static void main(String[] args) {
-        Time time = new Time(11, 21, 38, 27, 3, 2015);
+        Time time = new Time(23, 21, 38, 16, 12, 1878);
         System.out.println(time.now());
         System.out.println(time.toString());
     }
-    
+
 }

@@ -61,8 +61,5 @@ final public class Pair {
         System.out.println(two.equals(three));
         System.out.println(two.toString());
         System.out.println(three.toString());
-
-    }
-    
-    
+    }    
 }
