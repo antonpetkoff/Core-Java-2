@@ -7,8 +7,8 @@ public class StackImpl<T> implements Stack<T> {
         Node next;
     }
 
-    private Node top;
-    private int size;
+    protected Node top;
+    protected int size;
 
     StackImpl() {
         top = null;
@@ -58,27 +58,6 @@ public class StackImpl<T> implements Stack<T> {
         while (!isEmpty()) {
             pop();
         }
-    }
-
-    public static void main(String[] args) {
-
-        Stack<Integer> stack = new StackImpl<Integer>();
-
-        System.out.println(stack.peek());
-        System.out.println(stack.pop());
-
-        for (int i = 1; i <= 5; i++) {
-            stack.push(i);
-        }
-
-        System.out.println(stack.pop());
-        System.out.println(stack.pop());
-        System.out.println(stack.peek());
-
-        System.out.println("clear the stack");
-        stack.clear();
-
-        System.out.println(stack.isEmpty());
     }
 
 }
