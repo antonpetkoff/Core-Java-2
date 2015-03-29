@@ -125,23 +125,76 @@ public class LinkedList<T> implements List<T> {
         checkIndexBounds(index);
         getNodeAt(index).item = elem;
     }
+    
+    @Override
+    public void removeFirst() {
+        if (size == 0) {
+            return;
+        } else if (size == 1) {
+            first = last = null;
+        } else {
+            ListNode temp = first;
+            first = first.next;
+            temp = null;        // to avoid loitering
+        }
+        
+        --size;
+    }
+    
+    @Override
+    public void removeLast() {
+        if (size == 0) {
+            return;
+        } else if (size == 1) {
+            first = last = null;
+        } else {
+            ListNode temp = last;
+            last = last.prev;
+            temp = null;        // to avoid loitering
+        }
+        
+        --size;
+    }
 
     @Override
     public void remove(int index) {
-        // TODO Auto-generated method stub
-
+        checkIndexBounds(index);
+        
+        if (index == 0) {
+            removeFirst();
+        } else if (index == size - 1) {
+            removeLast();
+        } else {
+            ListNode temp = getNodeAt(index);
+            temp.prev.next = temp.next;
+            temp.next.prev = temp.prev;
+            temp = null;
+            --size;
+        }
     }
 
     @Override
     public boolean contains(T elem) {
-        // TODO Auto-generated method stub
+        if (size == 0) {
+            return false;
+        }
+        
+        ListNode temp = first;
+        while (null != temp) {
+            if (temp.item == elem) {
+                return true;
+            }
+            temp = temp.next;
+        }
+        
         return false;
     }
 
     @Override
     public void clear() {
-        // TODO Auto-generated method stub
-
+        while (!isEmpty()) {
+            removeFirst();
+        }
     }
     
     private void checkIndexBounds(int index) {

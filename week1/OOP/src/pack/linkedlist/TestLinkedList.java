@@ -80,6 +80,57 @@ public class TestLinkedList {
     }
     
     @Test
+    public void testRemoveFirst() {
+        fillList(2);
+        list.removeFirst();
+        assertEquals(1, list.size());
+        assertEquals(Integer.valueOf(1), list.getFirst());
+        list.removeFirst();
+        assertEquals(0, list.size());
+        list.removeFirst();
+    }
+    
+    @Test
+    public void testRemoveLast() {
+        fillList(2);
+        list.removeLast();
+        assertEquals(1, list.size());
+        assertEquals(Integer.valueOf(0), list.getLast());
+        list.removeLast();
+        assertEquals(0, list.size());
+        list.removeLast();
+    }
+    
+    @Test
+    public void testRemove() {
+        fillList(5);
+        list.remove(3);
+        assertEquals(4, list.size());
+        assertEquals(Integer.valueOf(4), list.get(3));
+        list.remove(3);
+        assertEquals(3, list.size());
+        assertEquals(Integer.valueOf(2), list.getLast());
+        list.remove(0);
+        assertEquals(2, list.size());
+        assertEquals(Integer.valueOf(1), list.getFirst());
+    }
+    
+    @Test
+    public void testContains() {
+        fillList(5);
+        assertEquals(true, list.contains(4));
+        assertEquals(false, list.contains(6));
+    }
+    
+    @Test
+    public void testClear() {
+        fillList(6);
+        list.clear();
+        assertEquals(0, list.size());
+        assertEquals(true, list.isEmpty());
+    }
+    
+    @Test
     public void testGet() {
         fillList(10);
         assertEquals(Integer.valueOf(9), list.getLast());

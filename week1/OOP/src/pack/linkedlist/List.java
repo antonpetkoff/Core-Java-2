@@ -20,6 +20,10 @@ public interface List<T> {
     
     void set(int index, T elem);
     
+    void removeFirst();
+    
+    void removeLast();
+    
     void remove(int index);
     
     boolean contains(T elem);
