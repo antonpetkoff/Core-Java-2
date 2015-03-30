@@ -5,6 +5,10 @@ public class BrightnessReduce implements MatrixOperation {
     private float factor;
 
     public BrightnessReduce(float factor) {
+        if (factor < 0.0f || factor > 1.0f) {
+            throw new IllegalArgumentException("BrightnessReduce(): factor must be in [0.0f, 1.0f]");
+        }
+        
         this.factor = factor;
     }
 

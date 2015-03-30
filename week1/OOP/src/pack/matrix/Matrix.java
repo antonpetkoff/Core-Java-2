@@ -108,7 +108,10 @@ public class Matrix {
     public static void main(String[] args) {
         Matrix matrix = new Matrix(5, 4);
         matrix.randomizeMatrix();
-        matrix.setPixel(1, 1, new Pixel(1, 2, 3));
+        System.out.println(matrix);
+        matrix.operate(new BrightnessReduce(0.5f));
+        System.out.println(matrix);
+        matrix.operate(new Grayscale());
         System.out.println(matrix);
     }
     
