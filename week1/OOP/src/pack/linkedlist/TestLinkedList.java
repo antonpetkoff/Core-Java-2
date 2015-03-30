@@ -10,7 +10,7 @@ import org.junit.rules.ExpectedException;
 public class TestLinkedList {
 
     private static LinkedList<Integer> list;
-    
+
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
@@ -50,14 +50,14 @@ public class TestLinkedList {
         assertEquals(Integer.valueOf(2), list.get(0));
         assertEquals(Integer.valueOf(1), list.get(1));
     }
-    
+
     @Test
     public void testAddLast() {
         fillList(9);
         assertEquals(Integer.valueOf(0), list.getFirst());
         assertEquals(Integer.valueOf(8), list.getLast());
     }
-    
+
     @Test
     public void testAdd() {
         list.add(0, 1);
@@ -78,7 +78,7 @@ public class TestLinkedList {
         list.set(3, 99);
         assertEquals(Integer.valueOf(99), list.get(3));
     }
-    
+
     @Test
     public void testRemoveFirst() {
         fillList(2);
@@ -89,7 +89,7 @@ public class TestLinkedList {
         assertEquals(0, list.size());
         list.removeFirst();
     }
-    
+
     @Test
     public void testRemoveLast() {
         fillList(2);
@@ -100,7 +100,7 @@ public class TestLinkedList {
         assertEquals(0, list.size());
         list.removeLast();
     }
-    
+
     @Test
     public void testRemove() {
         fillList(5);
@@ -114,14 +114,14 @@ public class TestLinkedList {
         assertEquals(2, list.size());
         assertEquals(Integer.valueOf(1), list.getFirst());
     }
-    
+
     @Test
     public void testContains() {
         fillList(5);
         assertEquals(true, list.contains(4));
         assertEquals(false, list.contains(6));
     }
-    
+
     @Test
     public void testClear() {
         fillList(6);
@@ -129,7 +129,7 @@ public class TestLinkedList {
         assertEquals(0, list.size());
         assertEquals(true, list.isEmpty());
     }
-    
+
     @Test
     public void testGet() {
         fillList(10);
@@ -137,7 +137,7 @@ public class TestLinkedList {
         assertEquals(Integer.valueOf(2), list.get(2));
         assertEquals(Integer.valueOf(4), list.get(4));
     }
-    
+
     @Test
     public void testGetThrowsIllegalArgumentException() {
         fillList(5);
@@ -145,13 +145,13 @@ public class TestLinkedList {
         list.get(-1);
         list.get(6);
     }
-    
+
     @Test
     public void testGetNodeAt() {
         fillList(3);
         assertEquals(Integer.valueOf(1), list.getNodeAt(1).item);
         assertEquals(Integer.valueOf(2), list.getNodeAt(2).item);
-        
+
         list = null;
         list = new LinkedList<Integer>();
         fillList(10);

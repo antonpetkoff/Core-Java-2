@@ -51,7 +51,7 @@ public class LinkedList<T> implements List<T> {
         ListNode newNode = new ListNode();
         newNode.item = elem;
         newNode.prev = null;
-        
+
         if (size == 0) {
             newNode.next = null;
             first = last = newNode;
@@ -60,10 +60,10 @@ public class LinkedList<T> implements List<T> {
             first.prev = newNode;
             first = newNode;
         }
-        
+
         ++size;
     }
-    
+
     @Override
     public void addLast(T elem) {
         ListNode newNode = new ListNode();
@@ -82,7 +82,6 @@ public class LinkedList<T> implements List<T> {
         ++size;
     }
 
-    
     /**
      * Inserts the specified element at the specified position in this list.
      * Shifts the element currently at that position (if any) and any subsequent
@@ -101,7 +100,7 @@ public class LinkedList<T> implements List<T> {
         if (index < 0 || index > size) {
             throw new IllegalArgumentException("add(int index, T elem): index out of bounds!");
         }
-        
+
         if (index == size) {
             addLast(elem);
         } else if (index == 0) {
@@ -125,7 +124,7 @@ public class LinkedList<T> implements List<T> {
         checkIndexBounds(index);
         getNodeAt(index).item = elem;
     }
-    
+
     @Override
     public void removeFirst() {
         if (size == 0) {
@@ -135,12 +134,12 @@ public class LinkedList<T> implements List<T> {
         } else {
             ListNode temp = first;
             first = first.next;
-            temp = null;        // to avoid loitering
+            temp = null; // to avoid loitering
         }
-        
+
         --size;
     }
-    
+
     @Override
     public void removeLast() {
         if (size == 0) {
@@ -150,16 +149,16 @@ public class LinkedList<T> implements List<T> {
         } else {
             ListNode temp = last;
             last = last.prev;
-            temp = null;        // to avoid loitering
+            temp = null; // to avoid loitering
         }
-        
+
         --size;
     }
 
     @Override
     public void remove(int index) {
         checkIndexBounds(index);
-        
+
         if (index == 0) {
             removeFirst();
         } else if (index == size - 1) {
@@ -178,7 +177,7 @@ public class LinkedList<T> implements List<T> {
         if (size == 0) {
             return false;
         }
-        
+
         ListNode temp = first;
         while (null != temp) {
             if (temp.item == elem) {
@@ -186,7 +185,7 @@ public class LinkedList<T> implements List<T> {
             }
             temp = temp.next;
         }
-        
+
         return false;
     }
 
@@ -196,16 +195,16 @@ public class LinkedList<T> implements List<T> {
             removeFirst();
         }
     }
-    
+
     private void checkIndexBounds(int index) {
         if (index < 0 || index >= size) {
             throw new IllegalArgumentException("get(int): index out of range!");
         }
     }
-    
+
     protected ListNode getNodeAt(int index) {
         // check if index in bounds
-        
+
         ListNode temp;
 
         if (index < size / 2) {
