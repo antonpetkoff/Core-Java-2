@@ -38,7 +38,7 @@ public class Pixel {
     
     @Override
     public String toString() {
-        return "(" + Float.toString(R) + "," + Float.toString(G) + "," + Float.toString(B) + ")";
+        return String.format("(%.3f,%.3f,%.3f)", R, G, B);
     }
     
 }
