@@ -2,8 +2,8 @@ package pack.pair;
 
 final public class Pair {
 
-    private Object left;
-    private Object right;
+    private final Object left;
+    private final Object right;
     
     Pair(Object left, Object right) {
         this.left = left;
@@ -14,16 +14,8 @@ final public class Pair {
         return this.left;
     }
     
-    public void setLeft(Object left) {
-        this.left = left;
-    }
-    
     public Object getRight() {
         return this.right;
-    }
-    
-    public void setRight(Object right) {
-        this.right = right;
     }
     
     @Override

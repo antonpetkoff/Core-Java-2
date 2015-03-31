@@ -10,7 +10,7 @@ public class StackImpl<T> implements Stack<T> {
     protected Node top;
     protected int size;
 
-    StackImpl() {
+    public StackImpl() {
         top = null;
         size = 0;
     }
