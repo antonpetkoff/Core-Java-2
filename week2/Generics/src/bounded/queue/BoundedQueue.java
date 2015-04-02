@@ -12,6 +12,7 @@ public class BoundedQueue<T> implements Queue<T> {
     
     public BoundedQueue(int bound) {
         this.bound = bound;
+        this.list = new LinkedList<T>();
     }
 
     @Override
@@ -137,4 +138,24 @@ public class BoundedQueue<T> implements Queue<T> {
         return list.getFirst();
     }
     
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        
+        for (Iterator<T> iterator = list.iterator(); iterator.hasNext();) {
+            str.append(iterator.next().toString() + ", ");
+        }
+        
+        return str.toString().substring(0, str.length() - 2);
+    }
+    
+    public static void main(String[] args) {
+        BoundedQueue<Integer> boundedQueue = new BoundedQueue<>(3);
+        boundedQueue.offer(1);
+        boundedQueue.offer(2);
+        boundedQueue.offer(3);
+        boundedQueue.offer(4);
+        boundedQueue.offer(5);
+        System.out.println(boundedQueue.toString()); //3,4,5
+    }
 }
