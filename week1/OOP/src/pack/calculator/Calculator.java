@@ -4,7 +4,7 @@ import pack.stack.StackImpl;
 
 public class Calculator {
     
-    public static double factorial(double n) {
+    private static double factorial(double n) {
         double result = 1;
         for (double i = n; i > 1.0; i -= 1.0) {
             result *= i;
@@ -12,49 +12,26 @@ public class Calculator {
         return result;
     }
     
-    public static int priority(Character ch) {
-        if (ch == null) {
+    private static int priority(Character ch) {
+        if (ch == null || ch == '(') {
             return -1;
+        } else if (ch == '!') {
+            return 2;
+        } else if (ch == '^' || ch == '*' || ch == '/') {
+            return 1;
+        } else if (ch == '+' || ch == '-') {
+            return 0;
         }
-        
-        switch (ch.charValue()) {
-            case '(':
-                return -1;
-            case '!':
-                return 2;
-            case '^':
-            case '*':
-            case '/':
-                return 1;
-            case '-':
-            case '+':
-                return 0;
-            default:
-                throw new IllegalArgumentException("Unsupported operation: " + ch);
-        }
-        
-    }
-    
-    public static boolean isRightAssociative(char ch) {
-        return ch == '^';
+        throw new IllegalArgumentException("Unsupported operation: " + ch);
     }
 
-    public static String infixToPostfix(String exp) {
+    private static String infixToPostfix(String exp) {
         Stack<Character> ops = new StackImpl<Character>();
         StringBuilder result = new StringBuilder();
         
         for (int i = 0; i < exp.length(); ++i) {
-            if (exp.charAt(i) == ' ') {
-                continue;
-            }
-            
             if (Character.isDigit(exp.charAt(i))) {
                 result.append(exp.charAt(i));
-                continue;
-            }
-            
-            if (exp.charAt(i) == '(') {
-                ops.push(exp.charAt(i));
                 continue;
             }
             
@@ -66,8 +43,7 @@ public class Calculator {
                 continue;
             }
 
-            if (priority(exp.charAt(i)) > priority(ops.peek())
-                    || ((priority(exp.charAt(i)) == priority(ops.peek())) && isRightAssociative(exp.charAt(i))) ) {
+            if ( exp.charAt(i) == '(' || ( priority(exp.charAt(i)) > priority(ops.peek())) ) {
                 ops.push(exp.charAt(i));
             } else {
                 while (priority(exp.charAt(i)) <= priority(ops.peek())) {
@@ -84,7 +60,7 @@ public class Calculator {
         return result.toString();
     }
     
-    public static String calculatePostfix(String exp) {
+    private static String calculatePostfix(String exp) {
         Stack<String> vals = new StackImpl<String>();
         
         for (int i = 0; i < exp.length(); i++) {
@@ -103,24 +79,28 @@ public class Calculator {
                 } else if (exp.charAt(i) == '^') {
                     vals.push(String.valueOf(Math.pow(Double.valueOf(vals.pop()), val)));
                 } else if (exp.charAt(i) == '!') {
-                    vals.push(Double.toString(factorial(val)));
+                    vals.push(String.valueOf(factorial(val)));
                 }
             }
         }
         return vals.pop();
     }
-
-    public static void testExpression(String expr) {
-        String rpn = infixToPostfix(expr);
-        System.out.println(rpn);
-        System.out.println(calculatePostfix(rpn) + '\n');
+    
+    public static String evaluateExpression(String exp) {
+        exp = exp.replaceAll("[^\\d()+\\-*/^!]+", "");
+        return calculatePostfix(infixToPostfix(exp));
     }
     
     public static void main(String[] args) {
-        testExpression("3+4*2/(1-5)^2^3");
-        testExpression("2^3 + (5+3)^2");
-        testExpression("(2*3 + 1*3)!");
-        testExpression("2^3! + 5*((3+2!)^2)");
+        Console console = new Console();
+        console.writeLine("Hello!\n");
+        String input = console.readLine("Enter expression:> ");
+        
+        while(!input.equals("exit")) {
+            console.writeLine(evaluateExpression(input));
+            input = console.readLine("Enter expression:> ");
+        }
+        console.writeLine("\nBye!");
     }
     
 }
