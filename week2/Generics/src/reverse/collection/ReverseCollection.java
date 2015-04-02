@@ -5,6 +5,7 @@ import java.util.Collection;
 
 public class ReverseCollection {
     
+    @SuppressWarnings("unchecked")
     public static <T> void reverse(Collection<T> collection) {
         Object[] arr = collection.toArray();
         
