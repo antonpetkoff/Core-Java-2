@@ -1,4 +1,4 @@
-package balanced.parentheses;
+package utilities;
 
 import java.util.Stack;
 

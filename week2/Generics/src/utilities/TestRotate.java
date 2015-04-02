@@ -1,4 +1,4 @@
-package rotate.step;
+package utilities;
 
 import static org.junit.Assert.assertEquals;
 

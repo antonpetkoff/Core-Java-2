@@ -1,4 +1,4 @@
-package reverse.collection;
+package utilities;
 
 import java.util.ArrayList;
 import java.util.Collection;
