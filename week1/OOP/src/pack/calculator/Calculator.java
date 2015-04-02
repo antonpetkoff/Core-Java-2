@@ -4,7 +4,13 @@ import pack.stack.StackImpl;
 
 public class Calculator {
     
-    public static String presedence = "(^*/+-";
+    public static double factorial(double n) {
+        double result = 1;
+        for (double i = n; i > 1.0; i -= 1.0) {
+            result *= i;
+        }
+        return result;
+    }
     
     public static int priority(Character ch) {
         if (ch == null) {
@@ -14,8 +20,9 @@ public class Calculator {
         switch (ch.charValue()) {
             case '(':
                 return -1;
-            case '^':
+            case '!':
                 return 2;
+            case '^':
             case '*':
             case '/':
                 return 1;
@@ -23,8 +30,7 @@ public class Calculator {
             case '+':
                 return 0;
             default:
-                System.out.println(ch);
-                throw new IllegalArgumentException("Unsupported operation!");
+                throw new IllegalArgumentException("Unsupported operation: " + ch);
         }
         
     }
@@ -53,7 +59,6 @@ public class Calculator {
             }
             
             if (exp.charAt(i) == ')') {
-                System.out.println("peek() before )while: " + ops.peek());
                 while (!ops.peek().equals('(')) {
                     result.append(ops.pop());
                 }
@@ -97,22 +102,25 @@ public class Calculator {
                     vals.push(String.valueOf(Double.valueOf(vals.pop()) / val));
                 } else if (exp.charAt(i) == '^') {
                     vals.push(String.valueOf(Math.pow(Double.valueOf(vals.pop()), val)));
+                } else if (exp.charAt(i) == '!') {
+                    vals.push(Double.toString(factorial(val)));
                 }
             }
         }
         return vals.pop();
     }
 
-    public static void main(String[] args) {
-        String rpn = infixToPostfix("3+4*2/(1-5)^2^3");
+    public static void testExpression(String expr) {
+        String rpn = infixToPostfix(expr);
         System.out.println(rpn);
-        System.out.println(calculatePostfix(rpn));
-        
-        System.out.println();
-        
-        String rpn2 = infixToPostfix("2^3 + (5+3)^2");
-        System.out.println(rpn2);
-        System.out.println(calculatePostfix(rpn2));
+        System.out.println(calculatePostfix(rpn) + '\n');
+    }
+    
+    public static void main(String[] args) {
+        testExpression("3+4*2/(1-5)^2^3");
+        testExpression("2^3 + (5+3)^2");
+        testExpression("(2*3 + 1*3)!");
+        testExpression("2^3! + 5*((3+2!)^2)");
     }
     
 }
