@@ -1,5 +1,8 @@
 package utilities;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Stack;
@@ -81,6 +84,39 @@ public class Utilities {
         }
 
         return temp.size() > 0 ? temp.get(0) : null;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public static <T> T[] intersectSets(Class<T> cls, T[][] sets) {
+        if (sets.length == 1) {
+            return sets[0];
+        }
+        
+        int minSetIndex = 0, minSetLen = sets[0].length;
+        for (int i = 1; i < sets.length; ++i) {
+            if (sets[i].length < minSetLen) {
+                minSetIndex = i;
+                minSetLen = sets[i].length;
+            }
+        }
+
+        ArrayList<T> survivors = new ArrayList<T>(Arrays.asList(sets[minSetIndex]));
+        
+        for (int i = 0; i < sets.length; ++i) {
+            if (i == minSetIndex) {
+                continue;
+            }
+
+            survivors.retainAll(new ArrayList<T>(Arrays.asList(sets[i])));
+        }
+        
+        T[] result = (T[]) Array.newInstance(cls, survivors.size());
+        
+        for (int i = 0; i < result.length; i++) {
+            result[i] = survivors.get(i);
+        }
+        
+        return result;
     }
 
 }

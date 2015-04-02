@@ -67,5 +67,20 @@ public class TestUtilities {
 
         assertEquals(Integer.valueOf(2), Utilities.findFirstUnique(list));
     }
+    
+    @Test
+    public void testIntersectSets() {
+        //assertEquals({5}, Utilities.intersectSets(sets));
+
+        Integer[] A = { 1, 2, 3, 4, 5 };
+        Integer[] B = { 4, 5, 6 };
+        Integer[] C = { 5, 6, 7, 8 };
+        Integer[][] sets = { A, B, C };
+        
+        Integer[] result = Utilities.intersectSets(Integer.class, sets);
+        
+        assertEquals(result.length, 1);
+        assertEquals(result[0], Integer.valueOf(5));
+    }
 
 }
