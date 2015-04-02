@@ -33,8 +33,6 @@ public class StackImpl<T> implements Stack<T> {
         newTop.next = prevTop;
         top = newTop;
         ++size;
-        
-        System.out.println("push: " + elem);
     }
 
     @Override
@@ -51,8 +49,6 @@ public class StackImpl<T> implements Stack<T> {
         T topItem = top.item;
         top = top.next;
         --size;
-        
-        System.out.println("pop: " + topItem);
         
         return topItem;
     }

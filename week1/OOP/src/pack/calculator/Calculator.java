@@ -80,12 +80,39 @@ public class Calculator {
     }
     
     public static String calculatePostfix(String exp) {
-        // TODO
-        return null;
+        Stack<String> vals = new StackImpl<String>();
+        
+        for (int i = 0; i < exp.length(); i++) {
+            if (Character.isDigit(exp.charAt(i))) {
+                vals.push(String.valueOf(exp.charAt(i)));
+            } else {
+                Double val = Double.valueOf(vals.pop());
+                if (exp.charAt(i) == '+') {
+                    vals.push(String.valueOf(Double.valueOf(vals.pop()) + val));
+                } else if (exp.charAt(i) == '-') {
+                    vals.push(String.valueOf(Double.valueOf(vals.pop()) - val));
+                } else if (exp.charAt(i) == '*') {
+                    vals.push(String.valueOf(Double.valueOf(vals.pop()) * val));
+                } else if (exp.charAt(i) == '/') {
+                    vals.push(String.valueOf(Double.valueOf(vals.pop()) / val));
+                } else if (exp.charAt(i) == '^') {
+                    vals.push(String.valueOf(Math.pow(Double.valueOf(vals.pop()), val)));
+                }
+            }
+        }
+        return vals.pop();
     }
 
     public static void main(String[] args) {
-        System.out.println(infixToPostfix("3+4*2/(1-5)^2^3"));
+        String rpn = infixToPostfix("3+4*2/(1-5)^2^3");
+        System.out.println(rpn);
+        System.out.println(calculatePostfix(rpn));
+        
+        System.out.println();
+        
+        String rpn2 = infixToPostfix("2^3 + (5+3)^2");
+        System.out.println(rpn2);
+        System.out.println(calculatePostfix(rpn2));
     }
     
 }
