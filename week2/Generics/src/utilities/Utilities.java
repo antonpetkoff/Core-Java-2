@@ -4,11 +4,13 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Stack;
 
+import on.off.collection.OnOffCollection;
+
 public class Utilities {
-    
-    public static boolean areBracketsBalanced(String str) {        
+
+    public static boolean areBracketsBalanced(String str) {
         Stack<Character> stack = new Stack<Character>();
-        
+
         for (int i = 0; i < str.length(); i++) {
             if (str.charAt(i) == '(') {
                 stack.push(str.charAt(i));
@@ -19,22 +21,22 @@ public class Utilities {
                 stack.pop();
             }
         }
-        
+
         return stack.size() == 0;
     }
-    
+
     @SuppressWarnings("unchecked")
     public static <T> void reverse(Collection<T> collection) {
         Object[] arr = collection.toArray();
-        
+
         for (int i = 0; i < arr.length / 2; i++) {
             Object temp = arr[i];
             arr[i] = arr[arr.length - i - 1];
-            arr[arr.length - i - 1]  = temp;
+            arr[arr.length - i - 1] = temp;
         }
-        
+
         collection.clear();
-        
+
         for (int i = 0; i < arr.length; i++) {
             collection.add((T) arr[i]);
         }
@@ -44,13 +46,12 @@ public class Utilities {
         if (rotateStep == 0) {
             return;
         }
-        
+
         LinkedList<T> deque = new LinkedList<T>();
         deque.addAll(c);
-        
+
         rotateStep %= deque.size();
-        
-        
+
         if (rotateStep > 0) {
             while (rotateStep > 0) {
                 T temp = deque.removeLast();
@@ -64,12 +65,22 @@ public class Utilities {
                 ++rotateStep;
             }
         }
-        
+
         c.clear();
-        
+
         for (T elem : deque) {
             c.add(elem);
         }
     }
-    
+
+    public static <T> T findFirstUnique(Collection<T> c) {
+        OnOffCollection<T> temp = new OnOffCollection<T>();
+
+        for (T elem : c) {
+            temp.add(elem);
+        }
+
+        return temp.size() > 0 ? temp.get(0) : null;
+    }
+
 }
