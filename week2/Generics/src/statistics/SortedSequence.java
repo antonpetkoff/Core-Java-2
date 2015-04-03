@@ -9,6 +9,10 @@ public class SortedSequence implements Iterable<Integer> {
         ListNode prev;
         ListNode next;
         
+        ListNode(int value) {
+            this.value = value;
+        }
+        
         ListNode(int value, ListNode prev, ListNode next) {
             this.value = value;
             this.prev = prev;
@@ -39,8 +43,6 @@ public class SortedSequence implements Iterable<Integer> {
     }
     
     public void add(Integer elem) {
-        // TODO
-        
         if (first == null) {
             first = last = middle = new ListNode(elem, null, null);
             ++size;
@@ -48,20 +50,49 @@ public class SortedSequence implements Iterable<Integer> {
             return;
         }
         
+        // maintain sorted invariant
         ListNode temp = last;
         while (temp.value > elem && temp != null) {
-            //temp = temp.prev;
-            // TODO
+            temp = temp.prev;
         }
         
-        // implement insertion which maintains sorted order
+        if (temp == null) {             // add before first node
+            linkNodeAsFirst(elem);
+        } else {                        // add after temp node or last node
+            linkNodeAfter(temp, elem);
+        }
         
+        ++size;
         
-        // handle middle node
+        // maintain middle node
+        if (size / 2 > middleIndex) {
+            middleIndex = size / 2;
+            middle = middle.next;
+        } else if (size / 2 < middleIndex) {
+            middleIndex = size / 2;
+            middle = middle.prev;
+        }
+        
     }
     
-    private void linkNode(Integer elem) {
-        // TODO
+    private void linkNodeAsFirst(Integer elem) {
+        ListNode newNode = new ListNode(elem, null, first);
+        first.prev = newNode;
+        first = newNode;
+    }
+    
+    private void linkNodeAfter(ListNode pivot, Integer elem) {
+        ListNode newNode = new ListNode(elem);
+        newNode.prev = pivot;
+        
+        if (pivot.next != null) {
+            newNode.next = pivot.next;
+            pivot.next.prev = newNode;
+        } else {
+            newNode.next = null;
+        }
+        
+        pivot.next = newNode;
     }
     
     @Override
