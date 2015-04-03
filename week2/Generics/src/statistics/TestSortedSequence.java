@@ -30,9 +30,11 @@ public class TestSortedSequence {
         int i = 0;
         for (Integer integer : seq) {
             System.out.println(integer);
-            //assertEquals(Integer.valueOf(i), integer);
+            assertEquals(Integer.valueOf(i), integer);
             ++i;
         }
+        
+        System.out.println(seq.getMedian());
 
     }
 

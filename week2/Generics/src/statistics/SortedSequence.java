@@ -22,14 +22,15 @@ public class SortedSequence implements Iterable<Integer> {
     
     private ListNode first;
     private ListNode last;
-    private ListNode middle;
     private int size;
-    private int middleIndex;
+    
+    private ListNode middle;
+    private int leftSize;
+    private int rightSize;
     
     SortedSequence() {
         first = last = middle = null;
-        size = 0;
-        middleIndex = -1;
+        size = leftSize = rightSize = 0;
     }
     
     public boolean isEmpty() {
@@ -51,11 +52,10 @@ public class SortedSequence implements Iterable<Integer> {
     }
     
     public void add(Integer elem) {
-        System.out.println("adding: " + elem);
         if (first == null) {
             first = last = middle = new ListNode(elem, null, null);
             ++size;
-            middleIndex = 0;
+            leftSize = rightSize = 0;
             return;
         }
         
@@ -73,14 +73,23 @@ public class SortedSequence implements Iterable<Integer> {
         
         ++size;
         
-        // maintain middle node
-        if (size / 2 > middleIndex) {
-            middleIndex = size / 2;
+        if (elem < middle.value) {
+            ++leftSize;
+        } else {
+            ++rightSize;
+        }
+        
+        // maintain middle node invariant
+        if (leftSize < rightSize) {
+            ++leftSize;
+            --rightSize;
             middle = middle.next;
-        } else if (size / 2 < middleIndex) {
-            middleIndex = size / 2;
+        } else if (leftSize - 1 > rightSize) {
+            --leftSize;
+            ++rightSize;
             middle = middle.prev;
         }
+        // else invariant is maintained
         
     }
     
