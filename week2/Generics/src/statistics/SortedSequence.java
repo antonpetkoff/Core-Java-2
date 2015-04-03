@@ -41,6 +41,14 @@ public class SortedSequence implements Iterable<Integer> {
         return size;
     }
     
+    public Integer getMinimum() {
+        return first != null ? first.value : null;
+    }
+    
+    public Integer getMaximum() {
+        return last != null ? last.value : null;
+    }
+    
     public double getMedian() {
         if (size == 0) {
             return 0.0;
