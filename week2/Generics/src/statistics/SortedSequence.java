@@ -32,6 +32,14 @@ public class SortedSequence implements Iterable<Integer> {
         middleIndex = -1;
     }
     
+    public boolean isEmpty() {
+        return first == null;
+    }
+    
+    public int size() {
+        return size;
+    }
+    
     public double getMedian() {
         if (size == 0) {
             return 0.0;
@@ -43,6 +51,7 @@ public class SortedSequence implements Iterable<Integer> {
     }
     
     public void add(Integer elem) {
+        System.out.println("adding: " + elem);
         if (first == null) {
             first = last = middle = new ListNode(elem, null, null);
             ++size;
@@ -52,7 +61,7 @@ public class SortedSequence implements Iterable<Integer> {
         
         // maintain sorted invariant
         ListNode temp = last;
-        while (temp.value > elem && temp != null) {
+        while ((temp != null) && (temp.value > elem)) {
             temp = temp.prev;
         }
         
@@ -90,6 +99,7 @@ public class SortedSequence implements Iterable<Integer> {
             pivot.next.prev = newNode;
         } else {
             newNode.next = null;
+            last = newNode;
         }
         
         pivot.next = newNode;
@@ -102,22 +112,23 @@ public class SortedSequence implements Iterable<Integer> {
     
     private class SortedListIterator implements Iterator<Integer> {
 
+        private ListNode head = first;
+        
         @Override
         public boolean hasNext() {
-            // TODO Auto-generated method stub
-            return false;
+            return head != null;
         }
 
         @Override
         public Integer next() {
-            // TODO Auto-generated method stub
-            return null;
+            Integer value = head.value;
+            head = head.next;
+            return value;
         }
 
         @Override
         public void remove() {
-            // TODO Auto-generated method stub
-            
+            // no need for remove
         }
         
     }
