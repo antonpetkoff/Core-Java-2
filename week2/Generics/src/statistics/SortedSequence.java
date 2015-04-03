@@ -5,9 +5,15 @@ import java.util.Iterator;
 public class SortedSequence implements Iterable<Integer> {
     
     protected class ListNode {
+        int value;
         ListNode prev;
         ListNode next;
-        int value;
+        
+        ListNode(int value, ListNode prev, ListNode next) {
+            this.value = value;
+            this.prev = prev;
+            this.next = next;
+        }
     }
     
     private ListNode first;
@@ -35,8 +41,27 @@ public class SortedSequence implements Iterable<Integer> {
     public void add(Integer elem) {
         // TODO
         
+        if (first == null) {
+            first = last = middle = new ListNode(elem, null, null);
+            ++size;
+            middleIndex = 0;
+            return;
+        }
+        
+        ListNode temp = last;
+        while (temp.value > elem && temp != null) {
+            //temp = temp.prev;
+            // TODO
+        }
+        
         // implement insertion which maintains sorted order
+        
+        
         // handle middle node
+    }
+    
+    private void linkNode(Integer elem) {
+        // TODO
     }
     
     @Override
