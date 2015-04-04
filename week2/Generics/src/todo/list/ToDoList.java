@@ -26,6 +26,12 @@ public class ToDoList {
         if (task.getTimeNeeded() > remainingTime) {
             throw new IllegalArgumentException("");
         }
+        
+        while ((task.getTimeNeeded() + this.timeNeeded) > this.remainingTime) {
+            queue.remove();
+        }
+        
+        queue.add(task);
     }
     
     public void markFinished(Task task) {
