@@ -94,7 +94,7 @@ public final class ImmutableList<E extends Serializable> extends ArrayList<E> {
     
     @Override
     public Object clone() {
-        return SerializationUtils.clone(this);
+        throw new ImmutableListModifyException("Modifications are not allowed! Immutable Object!");
     }
     
     @SafeVarargs
