@@ -19,8 +19,12 @@ public class FileUtils {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             
-            while (null != (line = reader.readLine())) {
+            if (null != (line = reader.readLine())) {
                 result.append(line);
+            }
+            
+            while (null != (line = reader.readLine())) {
+                result.append('\n').append(line);
             }
         }
         
