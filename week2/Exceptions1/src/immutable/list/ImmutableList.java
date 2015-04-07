@@ -36,7 +36,6 @@ public final class ImmutableList<E extends Serializable> extends ArrayList<E> {
         return SerializationUtils.clone(super.get(index));
     }
     
-    
     @Override
     public E set(int index, E element) {
         throw new ImmutableListModifyException("Modifications are not allowed! Immutable Object!");
