@@ -7,7 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FileUtils {
 
@@ -45,6 +48,15 @@ public class FileUtils {
     
     public static void writeTo(String text, Path path) throws IOException {
         writeTo(text, new File(path.toString()));
+    }
+    
+    public static Map<String, String> parseProperties(String str) {
+        Map<String, String> map = new HashMap<String, String>();
+        
+        StringReader reader = new StringReader(str);
+        //reader.
+        // TODO
+        return null;
     }
 
 }
