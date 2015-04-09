@@ -1,14 +1,12 @@
 package file.utils;
 
 import java.io.BufferedReader;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringReader;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,8 +50,17 @@ public class FileUtils {
         writeTo(text, new File(path.toString()));
     }
     
-    public static Map<String, String> parseProperties(String str) {
-        Map<String, String> map = new HashMap<String, String>();
+    public static Map<String, String> parseProperties(File file) {
+        String str = null;
+        try {
+            str = readFrom(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        Map<String, String> result = new HashMap<String, String>();
         Scanner scanner = new Scanner(str);
 
         String line;
@@ -63,13 +70,13 @@ public class FileUtils {
             if (!line.startsWith("#")) {
                 int firstEquals = line.indexOf('=');
                 if (firstEquals != -1) {
-                    map.put(line.substring(0, firstEquals), line.substring(firstEquals + 1, line.length() - 1));
+                    result.put(line.substring(0, firstEquals), line.substring(firstEquals + 1, line.length()).trim());
                 }
             }
         }
         
         scanner.close();
-        return null;
+        return result;
     }
-
+    
 }
