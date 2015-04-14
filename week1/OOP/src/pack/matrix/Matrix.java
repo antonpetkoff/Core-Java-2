@@ -113,6 +113,8 @@ public class Matrix {
         System.out.println(matrix);
         matrix.operate(new Grayscale());
         System.out.println(matrix);
+        matrix.operate(new GaussianBlur());
+        System.out.println(matrix);
     }
     
 }
