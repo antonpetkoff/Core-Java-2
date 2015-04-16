@@ -3,7 +3,7 @@ package todo.list;
 public class SleepTask extends Task {
 
     public static final String name = "Sleep";
-    private static final float defaultTimeNeeded = 8.0f;
+    public static final float defaultTimeNeeded = 8.0f;
     
     SleepTask(int priority) {
         super(priority, defaultTimeNeeded);

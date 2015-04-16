@@ -3,7 +3,7 @@ package todo.list;
 public class Task implements Comparable<Task> {
     
     public static final String name = "Task";
-    private static final float defaultTimeNeeded = 0.0f;
+    public static final float defaultTimeNeeded = 0.0f;
     
     protected int priority;
     protected float timeNeeded;

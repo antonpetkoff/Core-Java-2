@@ -3,7 +3,7 @@ package todo.list;
 public class HackBulgariaTask extends Task{
 
     public static final String name = "HackBulgariaTask";
-    private static final float defaultTimeNeeded = 4.0f;
+    public static final float defaultTimeNeeded = 4.0f;
     
     public HackBulgariaTask(int priority) {
         super(priority, defaultTimeNeeded);

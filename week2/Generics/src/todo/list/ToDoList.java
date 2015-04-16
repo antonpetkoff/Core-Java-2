@@ -22,18 +22,28 @@ public class ToDoList {
         return timeNeeded;
     }
     
+    /**
+     * increment timeNeeded
+     * 
+     */
     public void addTask(Task task) {
-        if (task.getTimeNeeded() > remainingTime) {
-            throw new IllegalArgumentException("");
-        }
-        
-        while ((task.getTimeNeeded() + this.timeNeeded) > this.remainingTime) {
-            queue.remove();
-        }
-        
+//        if (task.getTimeNeeded() > remainingTime) {
+//            throw new IllegalArgumentException("");
+//        }
+//        
+//        while ((task.getTimeNeeded() + this.timeNeeded) > this.remainingTime) {
+//            queue.remove();
+//        }
+//        
+//        queue.add(task);
         queue.add(task);
+        timeNeeded += task.getTimeNeeded();
     }
     
+    /**
+     * subtracts from the remaining time
+     * subtract from timeNeeded to maintain accuracy
+     */
     public void markFinished(Task task) {
         if (queue.isEmpty() ) {
             throw new IllegalStateException("No tasks in queue!");
@@ -50,8 +60,13 @@ public class ToDoList {
         }
         
         tempTask.setFinished(true);
+        timeNeeded -= tempTask.getTimeNeeded();
     }
     
+    /**
+     * removes the task from the queue, without subtracting from remainingTime
+     * subtract from timeNeeded to maintain accuracy
+     */
     public void markCanceled(Task task) {
         if (!queue.contains(task)) {
             throw new IllegalArgumentException("No such task in queue!");
@@ -64,8 +79,34 @@ public class ToDoList {
                 newQueue.add(t);
             }
         }
-        
+         
         queue = newQueue;
+        timeNeeded -= task.getTimeNeeded();
+    }
+    
+    public boolean canFinish() {
+        return remainingTime - timeNeeded >= 0;
+    }
+    
+    public Task top() {
+        return queue.peek();
+    }
+    
+    public static void main(String[] args) {
+        ToDoList todo = new ToDoList(11);       // 11 hours remaining!
+        todo.addTask(new StudyForCalculusTask(10, 3.0f));
+        todo.addTask(new HackBulgariaTask(7, 4.0f));
+        todo.addTask(new GoOutTask(2, 3.0f));
+        todo.addTask(new SleepTask(1, 8.0f));
+
+        if (todo.canFinish()){
+            System.out.println("Woohoo!");
+        } else {
+            System.out.println("I am ...screwed :(");
+        }
+
+        System.out.println(todo.top()); //StudyForAlgebraTask
+        System.out.println(todo.getTimeNeeded()); //sum of the time needed for every task added in todo list
     }
     
 }
