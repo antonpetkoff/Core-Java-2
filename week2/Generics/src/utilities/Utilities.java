@@ -149,9 +149,4 @@ public class Utilities {
         return map;
     }
     
-    public static void main(String[] args) {
-        Map<String, Integer> map = Utilities.countWords("Ninjas are all over the place! We are all going to die!");
-        System.out.println(Utilities.hashMapToString(map));
-    }
-    
 }
