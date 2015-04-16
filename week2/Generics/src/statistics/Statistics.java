@@ -1,35 +1,76 @@
 package statistics;
 
 import java.util.LinkedHashMap;
-import java.util.TreeSet;
 
 public class Statistics {
     
-    private TreeSet<Integer> ordered;                   // maintains the order of elements
-    private LinkedHashMap<Integer, Integer> buckets;    // holds all <element, count> tuples
+    // buckets hold all <element, count> tuples and handle the mode
+    private LinkedHashMap<Integer, Integer> buckets;
+    private SortedSequence sorted;
     
     private long sum = 0;
-    private int count = 0;
+    
+    private int mostFrequentCount = 0;   // the count of the most frequent in buckets
+    private Integer mostFrequentNumber = null;
     
     public Statistics() {
-        ordered = new TreeSet<Integer>();
         buckets = new LinkedHashMap<Integer, Integer>();
+        sorted = new SortedSequence();
     }
     
+    /**
+     * O(n) worst case complexity
+     */
     public void add(int number) {
-        ++count;
         sum += number;
+        
+        sorted.add(number);
         
         if (buckets.containsKey(number)) {
             buckets.put(number, buckets.get(number) + 1);
         } else {
             buckets.put(number, 1);
-            ordered.add(number);
+        }
+        
+        // maintain mode invariant
+        if (buckets.get(number) > mostFrequentCount) {
+            mostFrequentCount = buckets.get(number);
+            mostFrequentNumber = number;
         }
     }
     
-    public double getMean() {
-        return sum / (double) (count);
+    /**
+     * O(1) complexity
+     */
+    public Double getMean() {
+        return sum / (double) (sorted.size());
+    }
+    
+    /**
+     * O(1) complexity
+     */
+    public Integer getRange() {
+        if (sorted.isEmpty()) {
+            return null;
+        }
+        if (sorted.size() == 1) {
+            return 0;
+        }
+        return sorted.getMaximum() - sorted.getMinimum();
+    }
+    
+    /**
+     * O(1) complexity
+     */
+    public Double getMedian() {
+        return sorted.getMedian();
+    }
+    
+    /**
+     * O(1) complexity
+     */
+    public Integer getMode() {
+        return mostFrequentNumber != null ? mostFrequentNumber : null;
     }
     
 }
