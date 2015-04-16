@@ -4,11 +4,10 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Stack;
-
-import on.off.collection.OnOffCollection;
 
 public class Utilities {
 
@@ -128,6 +127,10 @@ public class Utilities {
         }
         
         return result;
+    }
+
+    public static String hashMapToString(HashMap<? extends Object, ? extends Object> map) {
+        return map.toString();
     }
 
 }
