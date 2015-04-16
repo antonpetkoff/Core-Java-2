@@ -9,7 +9,7 @@ public class GaussianBlur implements MatrixOperation {
         
         for (int row = y - 1; row <= y + 1; ++row) {
             for (int col = x - 1; col <= x + 1; ++col) {
-                if (col != x && row != y
+                if (!(col == x && row == y)
                     && col >= 0 && col < matrix[0].length
                     && row >= 0 && row < matrix.length) {
                     
