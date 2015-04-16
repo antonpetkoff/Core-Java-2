@@ -27,15 +27,6 @@ public class ToDoList {
      * 
      */
     public void addTask(Task task) {
-//        if (task.getTimeNeeded() > remainingTime) {
-//            throw new IllegalArgumentException("");
-//        }
-//        
-//        while ((task.getTimeNeeded() + this.timeNeeded) > this.remainingTime) {
-//            queue.remove();
-//        }
-//        
-//        queue.add(task);
         queue.add(task);
         timeNeeded += task.getTimeNeeded();
     }
@@ -105,7 +96,7 @@ public class ToDoList {
             System.out.println("I am ...screwed :(");
         }
 
-        System.out.println(todo.top()); //StudyForAlgebraTask
+        System.out.println(todo.top()); //StudyForCalculusTask
         System.out.println(todo.getTimeNeeded()); //sum of the time needed for every task added in todo list
     }
     
