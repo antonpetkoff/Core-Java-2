@@ -3,6 +3,8 @@ package utilities;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,16 +58,11 @@ public class TestUtilities {
 
     @Test
     public void testFindFirstUnique() {
-        for (int i = 1; i < 10; i++) {
-            list.add(i);
-        }
+        Collection<Integer> numbers = Arrays.asList(1,2,3,4,5,5,4,3,1);
+        Collection<Integer> numbers2 = Arrays.asList(1,2,3,4,5,2,2,4,3,1);
 
-        list.set(5, 5);
-        list.set(6, 4);
-        list.set(7, 3);
-        list.set(8, 1);
-
-        assertEquals(Integer.valueOf(2), Utilities.findFirstUnique(list));
+        assertEquals(Integer.valueOf(2), Utilities.findFirstUnique(numbers));
+        assertEquals(Integer.valueOf(5), Utilities.findFirstUnique(numbers2));
     }
     
     @Test

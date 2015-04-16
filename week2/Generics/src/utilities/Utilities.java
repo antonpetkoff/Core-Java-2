@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Stack;
 
@@ -77,13 +78,23 @@ public class Utilities {
     }
 
     public static <T> T findFirstUnique(Collection<T> c) {
-        OnOffCollection<T> temp = new OnOffCollection<T>();
+        LinkedHashMap<T, Integer> map = new LinkedHashMap<T, Integer>();
 
-        for (T elem : c) {
-            temp.add(elem);
+        for (T key : c) {
+            if (map.containsKey(key)) {
+                map.put(key, map.get(key) + 1);
+            } else {
+                map.put(key, 1);
+            }
         }
 
-        return temp.size() > 0 ? temp.get(0) : null;
+        for (T key : map.keySet()) {
+            if (map.get(key) == 1) {
+                return key;
+            }
+        }
+        
+        return null;
     }
     
     @SuppressWarnings("unchecked")
