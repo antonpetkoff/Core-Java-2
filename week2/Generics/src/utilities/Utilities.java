@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Stack;
 
 public class Utilities {
@@ -129,8 +130,28 @@ public class Utilities {
         return result;
     }
 
-    public static String hashMapToString(HashMap<? extends Object, ? extends Object> map) {
+    public static String hashMapToString(Map<? extends Object, ? extends Object> map) {
         return map.toString();
     }
 
+    public static Map<String, Integer> countWords(String text) {
+        String[] words = text.split("\\s+");
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        
+        for (String word : words) {
+            if (map.containsKey(word)) {
+                map.put(word, map.get(word) + 1);
+            } else {
+                map.put(word, 1);
+            }
+        }
+        
+        return map;
+    }
+    
+    public static void main(String[] args) {
+        Map<String, Integer> map = Utilities.countWords("Ninjas are all over the place! We are all going to die!");
+        System.out.println(Utilities.hashMapToString(map));
+    }
+    
 }
