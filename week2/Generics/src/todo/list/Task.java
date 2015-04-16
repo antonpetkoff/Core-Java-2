@@ -10,8 +10,7 @@ public class Task implements Comparable<Task> {
     protected boolean isFinished;
     
     Task(int priority) {
-        this.priority = priority;
-        this.timeNeeded = defaultTimeNeeded;
+        this(priority, defaultTimeNeeded);
     }
     
     Task(int priority, float timeNeeded) {

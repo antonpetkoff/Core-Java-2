@@ -6,8 +6,7 @@ public class SleepTask extends Task {
     private static final float defaultTimeNeeded = 8.0f;
     
     SleepTask(int priority) {
-        super(priority);
-        this.timeNeeded = defaultTimeNeeded;
+        super(priority, defaultTimeNeeded);
     }
 
     SleepTask(int priority, float timeNeeded) {
