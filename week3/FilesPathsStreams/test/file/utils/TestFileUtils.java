@@ -18,7 +18,7 @@ public class TestFileUtils {
         String actual = "";
 
         try {
-            File file = new File("res/test.txt");
+            File file = new File("res/readFromFileTestFile.txt");
             actual = FileUtils.readFrom(file);
 
         } catch (FileNotFoundException e) {
@@ -36,7 +36,7 @@ public class TestFileUtils {
         String actual = "";
 
         try {
-            File file = new File("res/test.txt");
+            File file = new File("res/readFromFileTestFile.txt");
             actual = FileUtils.readFrom(file.toPath());
 
         } catch (FileNotFoundException e) {
