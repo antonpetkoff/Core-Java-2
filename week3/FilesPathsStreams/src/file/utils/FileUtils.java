@@ -8,9 +8,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
 
 public class FileUtils {
 
@@ -48,35 +45,6 @@ public class FileUtils {
     
     public static void writeTo(String text, Path path) throws IOException {
         writeTo(text, new File(path.toString()));
-    }
-    
-    public static Map<String, String> parseProperties(File file) {
-        String str = null;
-        try {
-            str = readFrom(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        Map<String, String> result = new HashMap<String, String>();
-        Scanner scanner = new Scanner(str);
-
-        String line;
-        while (scanner.hasNextLine()) {
-            line = scanner.nextLine();
-            
-            if (!line.startsWith("#")) {
-                int firstEquals = line.indexOf('=');
-                if (firstEquals != -1) {
-                    result.put(line.substring(0, firstEquals), line.substring(firstEquals + 1, line.length()).trim());
-                }
-            }
-        }
-        
-        scanner.close();
-        return result;
     }
     
 }

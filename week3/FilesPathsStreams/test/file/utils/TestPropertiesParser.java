@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import properties.parser.PropertiesParser;
 import file.utils.FileUtils;
 
 public class TestPropertiesParser {
@@ -32,7 +33,7 @@ public class TestPropertiesParser {
     @Test
     public void testParseProperties() {
         String expected = "{a3    =b3,    a4 =b4, a1=b1, a2 =b2, a5=b6=b7=b8, a6=b9 #comment, a7==b10}";
-        String actual = FileUtils.parseProperties(tempFile).toString();
+        String actual = PropertiesParser.parseProperties(tempFile).toString();
         assertEquals(expected, actual);
     }
     
