@@ -10,7 +10,7 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-public class TestFileUtils {
+public class TestReadWrite {
 
     @Test
     public void testReadFromFile() {

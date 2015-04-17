@@ -8,11 +8,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class FileUtils {
 
-    private FileUtils() {
-
+    public static String reduceFilePath(String path) {
+        return Paths.get(path).normalize().toString();
     }
 
     public static String readFrom(File file) throws FileNotFoundException, IOException {
