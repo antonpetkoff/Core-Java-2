@@ -4,16 +4,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import file.utils.FileUtils;
 
 public class Compressor {
 
-    private HashMap<String, Integer> map;
+    private ArrayList<String> map;
     
     public Compressor() {
-        map = new HashMap<String, Integer>();
+        map = new ArrayList<String>();
     }
     
     public void compress(Path filePath) {
@@ -26,7 +26,6 @@ public class Compressor {
             e.printStackTrace();
         }
         
-        int counter = 0;
         StringBuilder compressed = new StringBuilder();
         StringBuilder temp = new StringBuilder();
         
@@ -39,13 +38,12 @@ public class Compressor {
                     ++i;
                 }
                 --i;
-                
-                if (!map.containsKey(temp.toString())) {
-                    map.put(temp.toString(), counter);
-                    ++counter;
+
+                if (!map.contains(temp.toString())) {
+                    map.add(temp.toString());
                 }
                 
-                compressed.append("~" + map.get(temp.toString()));
+                compressed.append("~" + map.indexOf(temp.toString()));
                 temp = new StringBuilder();
             }
         }
