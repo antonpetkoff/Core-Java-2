@@ -38,19 +38,20 @@ public class Compressor {
                     temp.append(text.charAt(i));
                     ++i;
                 }
+                --i;
                 
-                if (!map.containsKey(temp)) {
+                if (!map.containsKey(temp.toString())) {
                     map.put(temp.toString(), counter);
                     ++counter;
                 }
                 
-                compressed.append("~" + map.get(temp));
+                compressed.append("~" + map.get(temp.toString()));
                 temp = new StringBuilder();
             }
         }
         
         String fileName = filePath.getFileName().toString().replaceFirst("\\..*", "");
-        String writePath = filePath.getParent().toString() + fileName + ".compr";
+        String writePath = filePath.getParent().toString() + "/" + fileName + ".compr";
         
         try {
             FileUtils.writeTo(compressed.toString(), Paths.get(writePath));
@@ -59,4 +60,9 @@ public class Compressor {
         }
     }
     
+    public static void main(String[] args) {
+        String path = "/home/tony/Desktop/compressThis.txt";
+        Compressor compressor = new Compressor();
+        compressor.compress(Paths.get(path));
+    }
 }
