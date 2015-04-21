@@ -2,8 +2,9 @@ package email.sender;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
+import org.apache.commons.mail.MultiPartEmail;
 
 public class EmailSender {
 
@@ -24,12 +25,18 @@ public class EmailSender {
     }
     
     public void sendEmail(String subject, String msg) {
-        Email email = new SimpleEmail();
+        String url = "http://d3dsacqprgcsqh.cloudfront.net/photo/azbW3zq_460sa_v1.gif";
+        EmailAttachment attachment = new EmailAttachment();
+        attachment.setPath(url);
+        attachment.setDisposition(EmailAttachment.ATTACHMENT);
+        attachment.setDescription("Picture of Suarez");
+        attachment.setName("Luis Suarez");
+        
+        Email email = new MultiPartEmail();
         email.setDebug(true);
         email.setStartTLSEnabled(isTLS);
         email.setHostName(hostName);
         email.setSmtpPort(smtpPort);
-        System.out.println(email.getSmtpPort());
         email.setAuthenticator(new DefaultAuthenticator(sender, password));
         email.setSSLOnConnect(true);
         
