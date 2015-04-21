@@ -5,19 +5,29 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 
 public class BrokenLinksFinder {
     
     private static boolean isBrokenLink(Path path) {
-        if (Files.isSymbolicLink(path)) {
-            
+        Map<String, Object> attributes = null;
+        try {
+            attributes = Files.readAttributes(path, "isSymbolicLink");
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        
+        // readAttributes doesn't recognize symbolic links on my Ubuntu... sad
+        if (null != attributes && (boolean) attributes.get("isSymbolicLink")
+                || Files.isSymbolicLink(path)) {
             Path targetPath = null;
             try {
                 targetPath = Files.readSymbolicLink(path);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException e2) {
+                e2.printStackTrace();
             }
             
             if (!Files.exists(targetPath)) {
