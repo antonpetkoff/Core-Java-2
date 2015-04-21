@@ -19,14 +19,8 @@ import com.sun.org.apache.xml.internal.security.utils.Base64;
 import file.utils.FileUtils;
 
 public class Compressor {
-
-    private ArrayList<String> list;
     
-    public Compressor() {
-        list = new ArrayList<String>();
-    }
-    
-    public void compress(Path filePath) {
+    public static void compress(Path filePath) {
         String text = null;
         try {
             text = FileUtils.readFrom(filePath);
@@ -36,6 +30,7 @@ public class Compressor {
             e.printStackTrace();
         }
         
+        ArrayList<String> list = new ArrayList<String>();
         StringBuilder compressed = new StringBuilder();
         StringBuilder temp = new StringBuilder();
         
@@ -60,12 +55,31 @@ public class Compressor {
         
         String fileName = filePath.getFileName().toString().replaceFirst("\\..*", "");
         String writePath = filePath.getParent().toString() + "/" + fileName + ".compr";
+        String serializedList = serializeToString(list);
+        String forWriting = String.valueOf(compressed.length()) + compressed.toString() + serializedList;
         
         try {
-            FileUtils.writeTo(String.valueOf(compressed.length()) + compressed.toString(), Paths.get(writePath));
+            FileUtils.writeTo(forWriting, Paths.get(writePath));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public static void decompress(Path filePath) {
+        String text = null;
+        try {
+            text = FileUtils.readFrom(filePath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        ArrayList<String> list = new ArrayList<String>();
+        StringBuilder decompressed = new StringBuilder();
+        StringBuilder temp = new StringBuilder();
+        
+        //TODO
     }
     
     protected static String serializeToString(Serializable obj) {
@@ -103,7 +117,6 @@ public class Compressor {
     
     public static void main(String[] args) {
         String path = "/home/tony/Desktop/compressThis.txt";
-        Compressor compressor = new Compressor();
-        compressor.compress(Paths.get(path));
+        Compressor.compress(Paths.get(path));
     }
 }
