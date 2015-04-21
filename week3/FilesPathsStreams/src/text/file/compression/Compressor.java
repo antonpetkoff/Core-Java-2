@@ -1,19 +1,29 @@
 package text.file.compression;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 import file.utils.FileUtils;
 
 public class Compressor {
 
-    private ArrayList<String> map;
+    private ArrayList<String> list;
     
     public Compressor() {
-        map = new ArrayList<String>();
+        list = new ArrayList<String>();
     }
     
     public void compress(Path filePath) {
@@ -39,11 +49,11 @@ public class Compressor {
                 }
                 --i;
 
-                if (!map.contains(temp.toString())) {
-                    map.add(temp.toString());
+                if (!list.contains(temp.toString())) {
+                    list.add(temp.toString());
                 }
                 
-                compressed.append("~" + map.indexOf(temp.toString()));
+                compressed.append("~" + list.indexOf(temp.toString()));
                 temp = new StringBuilder();
             }
         }
@@ -52,10 +62,43 @@ public class Compressor {
         String writePath = filePath.getParent().toString() + "/" + fileName + ".compr";
         
         try {
-            FileUtils.writeTo(compressed.toString(), Paths.get(writePath));
+            FileUtils.writeTo(String.valueOf(compressed.length()) + compressed.toString(), Paths.get(writePath));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    protected static String serializeToString(Serializable obj) {
+        String encoded = null;
+        
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             ObjectOutputStream oos = new ObjectOutputStream(baos);) {
+            oos.writeObject(obj);
+            encoded = new String(Base64.encode(baos.toByteArray()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        return encoded;
+    }
+    
+    protected static Object deserializeFromString(String str) {
+        byte[] data = null;
+        try {
+            data = Base64.decode(str);
+        } catch (Base64DecodingException e) {
+            e.printStackTrace();
+        }
+        
+        Object obj = null;
+        try(ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));) {
+            obj = ois.readObject();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
     
     public static void main(String[] args) {
