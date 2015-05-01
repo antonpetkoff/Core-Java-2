@@ -3,6 +3,13 @@ package hack.bulgaria.api;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -55,9 +62,49 @@ public class RestConsumer {
         return counter;
     }
     
+    static <K,V extends Comparable<? super V>>
+    SortedSet<Map.Entry<K,V>> entriesSortedByValues(Map<K,V> map) {
+        SortedSet<Map.Entry<K,V>> sortedEntries = new TreeSet<Map.Entry<K,V>>(
+            new Comparator<Map.Entry<K,V>>() {
+                @Override
+                public int compare(Map.Entry<K,V> e1, Map.Entry<K,V> e2) {
+                    int res = e2.getValue().compareTo(e1.getValue());
+                    return res != 0 ? res : 1;
+                }
+            }
+        );
+        sortedEntries.addAll(map.entrySet());
+        return sortedEntries;
+    }
+    
+    public String getTopTenVisitors() throws ClientProtocolException, JSONException, IOException {
+        JSONArray visits = new JSONArray(getContent(CHECKINS_URL));
+        Map<String, Integer> map = new TreeMap<String, Integer>();
+        String tempName = null;
+        
+        for (int i = 0; i < visits.length(); ++i) {
+            tempName = visits.getJSONObject(i).getString("student_name");
+            if (map.containsKey(tempName)) {
+                map.put(tempName, map.get(tempName) + 1);
+            } else {
+                map.put(tempName, 1);
+            }
+        }
+        
+        Set<Map.Entry<String, Integer>> sorted = entriesSortedByValues(map);
+        StringBuilder result = new StringBuilder();
+        int i = 0;
+        for (Iterator<Map.Entry<String, Integer>> iterator = sorted.iterator(); i < 10 && iterator.hasNext(); ++i) {
+            Map.Entry<String, Integer> entry = iterator.next();
+            result.append(entry + "\n");
+        }
+        
+        return result.toString();
+    }
+    
     public static void main(String[] args) throws ClientProtocolException, IOException, JSONException {
         RestConsumer rc = new RestConsumer();
-        System.out.println(rc.getContent(CHECKINS_URL));
+        System.out.println(rc.getTopTenVisitors());
     }
     
 }
