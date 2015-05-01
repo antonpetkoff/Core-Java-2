@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="/home/tony/Documents/Code/libs/httpcomponents-client-4.4.1/lib/httpmime-4.4.1.jar"/>
 	<classpathentry kind="lib" path="/home/tony/Documents/Code/libs/httpcomponents-client-4.4.1/lib/jna-4.1.0.jar"/>
 	<classpathentry kind="lib" path="/home/tony/Documents/Code/libs/httpcomponents-client-4.4.1/lib/jna-platform-4.1.0.jar"/>
+	<classpathentry kind="lib" path="/home/tony/Documents/Code/libs/jettison-1.3.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
