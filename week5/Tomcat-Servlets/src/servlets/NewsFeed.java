@@ -45,5 +45,4 @@ public class NewsFeed extends HttpServlet {
         }
 	}
 
-
 }
