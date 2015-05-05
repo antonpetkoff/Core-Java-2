@@ -1,10 +1,8 @@
 package text.file.compression;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -20,15 +18,8 @@ import file.utils.FileUtils;
 
 public class Compressor {
     
-    public static void compress(Path filePath) {
-        String text = null;
-        try {
-            text = FileUtils.readFrom(filePath);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static void compress(Path filePath) throws FileNotFoundException, IOException {
+        String text = FileUtils.readFrom(filePath);
         
         ArrayList<String> list = new ArrayList<String>();
         StringBuilder compressed = new StringBuilder();
@@ -58,28 +49,40 @@ public class Compressor {
         String serializedList = serializeToString(list);
         String forWriting = String.valueOf(compressed.length()) + compressed.toString() + serializedList;
         
-        try {
-            FileUtils.writeTo(forWriting, Paths.get(writePath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileUtils.writeTo(forWriting, Paths.get(writePath));
     }
     
-    public static void decompress(Path filePath) {
-        String text = null;
-        try {
-            text = FileUtils.readFrom(filePath);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static void decompress(Path filePath) throws FileNotFoundException, IOException {
+        String text = FileUtils.readFrom(filePath);
+        int compressedLength = Integer.valueOf(text.substring(0, text.indexOf('~')));
+        String compressed = text.substring(text.indexOf('~'), text.indexOf('~') + compressedLength);
+        String serializedList = text.substring(text.indexOf('~') + compressedLength);
         
-        ArrayList<String> list = new ArrayList<String>();
+        @SuppressWarnings("unchecked")
+        ArrayList<String> list = (ArrayList<String>) deserializeFromString(serializedList);
         StringBuilder decompressed = new StringBuilder();
         StringBuilder temp = new StringBuilder();
         
-        //TODO
+        for (int i = 0; i < compressed.length(); ++i) {
+            if (Character.isWhitespace(compressed.charAt(i))) {
+                decompressed.append(' ');
+            } else if (compressed.charAt(i) == '~') {
+                ++i;
+                while (i < compressed.length() && Character.isDigit(compressed.charAt(i))) {
+                    temp.append(compressed.charAt(i));
+                    ++i;
+                }
+                --i;
+                
+                decompressed.append(list.get(Integer.valueOf(temp.toString())));
+                temp = new StringBuilder();
+            }
+        }
+        
+        String fileName = filePath.getFileName().toString().replaceFirst("\\..*", "");
+        String writePath = filePath.getParent().toString() + "/" + fileName + ".decompr";
+        
+        FileUtils.writeTo(decompressed.toString(), Paths.get(writePath));
     }
     
     protected static String serializeToString(Serializable obj) {
@@ -115,8 +118,9 @@ public class Compressor {
         return obj;
     }
     
-    public static void main(String[] args) {
-        String path = "/home/tony/Desktop/compressThis.txt";
-        Compressor.compress(Paths.get(path));
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        String path = "/home/tony/Desktop/compressThis";
+        Compressor.compress(Paths.get(path + ".txt"));
+        Compressor.decompress(Paths.get(path + ".compr"));
     }
 }
