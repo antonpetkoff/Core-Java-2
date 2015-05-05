@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,9 +30,11 @@ public class PrettyJson extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String jsonURL = request.getParameter("json");
-		
+        response.setCharacterEncoding(Charset.forName("windows-1251").toString());
+        
+        String jsonURL = request.getParameter("json");
 		String pretty = null;
+		
 		if (null != jsonURL) {
 		    PrettyPrinter pp = new PrettyPrinter(jsonURL);
 		    pretty = pp.prettyPrint();
