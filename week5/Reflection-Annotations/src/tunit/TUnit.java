@@ -3,9 +3,18 @@ package tunit;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class TUnit {
+    
+    public static void assertEquals(Integer expected, Integer actual) {
+        if (!expected.equals(actual)) {
+            System.out.println("Failed test: " + actual + " should be equal to: " + expected);
+            System.exit(0);
+        }
+    }
     
     public static void runTUnit(Class<?> testClass) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException, NoSuchMethodException, SecurityException {
         Method[] methods = testClass.getMethods();
@@ -25,6 +34,15 @@ public class TUnit {
         }
         
         Object testClassInstance = testClass.getConstructor().newInstance();
+        
+        Collections.sort(beforeMethods, new Comparator<Method>() {
+            @Override
+            public int compare(Method o1, Method o2) {
+                int priority1 = o1.getAnnotation(Before.class).priority();
+                int priority2 = o2.getAnnotation(Before.class).priority();
+                return priority2 - priority1;
+            }
+        });
         
         for (Method method : beforeMethods) {
             method.invoke(testClassInstance);
