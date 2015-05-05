@@ -1,7 +1,6 @@
 package classinfo.annotation;
 
-
-@ClassInfo(author="tony",related={String.class, Double.class})
+@ClassInfo(author="tony",related={String.class, Integer.class})
 public class AnnotationUser {
     
     private int value;
@@ -27,8 +26,11 @@ public class AnnotationUser {
         System.out.println(annotation.author());
         System.out.println(annotation.revision());
         System.out.println(annotation.checked());
-        System.out.println(annotation.related());
         
+        Class<?>[] related = annotation.related();
+        for (int i = 0; i < related.length; ++i) {
+            System.out.println(related[i].toString());
+        }
     }
     
 }
