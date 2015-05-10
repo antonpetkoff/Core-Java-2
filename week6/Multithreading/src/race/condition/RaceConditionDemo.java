@@ -1,7 +1,5 @@
 package race.condition;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import sun.awt.Mutex;
 
 public class RaceConditionDemo {
