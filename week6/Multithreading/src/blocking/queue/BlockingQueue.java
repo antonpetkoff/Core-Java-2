@@ -14,14 +14,12 @@ public class BlockingQueue<T> implements Queue<T> {
     }
     
     @Override
-    public T poll() {
+    public synchronized T poll() {
         while (list.size() == 0) {
-            synchronized(this) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
         
