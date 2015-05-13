@@ -72,6 +72,11 @@ public final class Point {
         return list;
     }
 
+    @Override
+    public int hashCode() {
+        return coords.hashCode();
+    }
+    
     public static void main(String[] args) throws IllegalArgumentException {
         List<Point> points = Point.generatePoints(3, 10, 0, 10_000);
         System.out.println(points);
