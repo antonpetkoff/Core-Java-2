@@ -5,36 +5,50 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BlockingQueue<T> implements Queue<T> {
+public class BlockingBoundedQueue<T> implements Queue<T> {
 
     private LinkedList<T> list;
+    private int upperBound;
     
-    public BlockingQueue() {
+    public BlockingBoundedQueue(int upperBound) {
+        if (upperBound < 1) {
+            throw new IllegalArgumentException("upperBound must be a positive integer");
+        }
+        this.upperBound = upperBound;
         list = new LinkedList<T>();
     }
     
     @Override
-    public synchronized T poll() {
-        while (list.size() == 0) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    public T poll() {
+        synchronized(list) {
+            while (list.size() == 0) {
+                try {
+                    list.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            
+            list.notifyAll();
+            return list.poll();
         }
-        
-        return list.poll();
     }
     
     @Override
-    public synchronized boolean offer(T e) {
-        boolean result = list.offer(e);
-        
-        if (result) {
-            notifyAll();
+    public boolean offer(T e) {
+        synchronized (list) {
+            while (list.size() == upperBound) {
+                try {
+                    list.wait();
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            
+            boolean result = list.offer(e);
+            list.notifyAll();
+            return result;            
         }
-        
-        return result;
     }
     
     @Override
