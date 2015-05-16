@@ -20,7 +20,7 @@ public class NearestPoint {
         for (int i = indexFrom; i < indexTo; ++i) {
             minDistance = Double.MAX_VALUE;
 
-            for (int j = indexFrom; j < indexTo; ++j) {
+            for (int j = 0; j < inPoints.size(); ++j) {
                 if (i != j) {
                     tempDistance = inPoints.get(i).distanceTo(inPoints.get(j));
                     
@@ -42,7 +42,15 @@ public class NearestPoint {
         final int slice = generatedPoints.size() / threadsCount;
 
         for (int i = 0; i < threadsCount; ++i) {
-            threads[i] = new Thread(new Calculation(generatedPoints, 0 + i * slice, (i + 1) * slice, outMap));
+            //threads[i] = new Thread(new Calculation(generatedPoints, 0 + i * slice, (i + 1) * slice, outMap));
+            
+            final int pivot = i;
+            threads[i] = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    doCalculations(generatedPoints, 0 + pivot * slice, (pivot + 1) * slice, outMap);
+                }
+            });
             threads[i].start();
         }
         
@@ -59,10 +67,10 @@ public class NearestPoint {
     }
 
     // THREADS_COUNT must divide POINTS_COUNT
-    public static final int THREADS_COUNT = 100;
+    public static final int THREADS_COUNT = 10;
     
-    public static final int DIMENSIONS_COUNT = 3;
-    public static final int POINTS_COUNT = 100_000;
+    public static final int DIMENSIONS_COUNT = 2;
+    public static final int POINTS_COUNT = 10_000;
     public static final int RANGE_MIN = 0;
     public static final int RANGE_MAX = 10_000;
     
