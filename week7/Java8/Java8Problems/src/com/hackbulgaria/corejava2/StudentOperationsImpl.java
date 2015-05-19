@@ -1,6 +1,7 @@
 package com.hackbulgaria.corejava2;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,10 +34,12 @@ public class StudentOperationsImpl implements StudentOperations {
 
     @Override
     public Map<Boolean, List<Student>> splitStudentsByMarks(float splitMark) {
-        // TODO
-        Map<String, Double> map = students.stream().collect(Collectors.toMap(p -> p.getName(), p -> p.getGrade()));
-        System.out.println(map);
-        return null;
+        Map<Boolean, List<Student>> result = new HashMap<>();
+        List<Student> passing = students.stream().filter(s -> s.getGrade() >= splitMark).collect(Collectors.toList());
+        List<Student> failing = students.stream().filter(s -> s.getGrade() < splitMark).collect(Collectors.toList());
+        result.put(true, passing);
+        result.put(false, failing);
+        return result;
     }
 
     @Override
@@ -51,20 +54,20 @@ public class StudentOperationsImpl implements StudentOperations {
     }
 
     @Override
-    public List<Student> getStudentsWithLowestMarks() {
+    public List<Student> getStudentsWithLowestMarks() { 
         double min = students.stream().min(Comparator.comparing(Student::getGrade)).get().getGrade();
         return students.stream().filter(s -> s.getGrade() == min).collect(Collectors.toList());
     }
 
     @Override
     public List<Student> getStudentsWithHighestMarks() {
-        // TODO Auto-generated method stub
-        return null;
+        double max = students.stream().max(Comparator.comparing(Student::getGrade)).get().getGrade();
+        return students.stream().filter(s -> s.getGrade() == max).collect(Collectors.toList());
     }
 
     @Override
     public Map<Integer, List<Double>> getMarksDistributionByAge() {
-        // TODO Auto-generated method stub
+        // TODO
         return null;
     }
 
