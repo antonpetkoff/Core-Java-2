@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import com.hackbulgaria.corejava2.data.Gender;
 import com.hackbulgaria.corejava2.data.Student;
+import com.hackbulgaria.corejava2.data.StudentsDataFactory;
 
 public class StudentOperationsImpl implements StudentOperations {
 
@@ -67,14 +68,18 @@ public class StudentOperationsImpl implements StudentOperations {
 
     @Override
     public Map<Integer, List<Double>> getMarksDistributionByAge() {
-        // TODO
-        return null;
+        Map<Integer, List<Double>> result = students.stream()
+                .collect(Collectors.groupingBy(Student::getAge,
+                        Collectors.mapping(Student::getGrade, Collectors.toList())));
+        return result;
     }
 
     @Override
     public Map<Gender, Double> getAverageMarkByGender() {
-        // TODO Auto-generated method stub
-        return null;
+        Map<Gender, Double> result = students.stream()
+                .collect(Collectors.groupingBy(Student::getGender,
+                        Collectors.averagingDouble(Student::getGrade)));
+        return result;
     }
 
     @Override
