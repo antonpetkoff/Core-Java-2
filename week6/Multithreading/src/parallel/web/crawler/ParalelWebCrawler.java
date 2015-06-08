@@ -5,12 +5,18 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -19,20 +25,18 @@ import org.apache.http.client.utils.URIUtils;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-public class WebCrawler {
-    private final Set<URI> visitedUrls = Collections
-            .synchronizedSet(new HashSet<URI>());
+public class ParalelWebCrawler {
+    private final Set<URI> visitedUrls = new AtomicSet();
+    private ExecutorService service;
 
-    // private final Set<URI> finalResult = Collections.synchronizedSet(new
-    // HashSet<URI>());
+    public ParalelWebCrawler(ExecutorService service) {
+        this.service = service;
+    }
 
-    public Set<URI> crawl(URI currentLocation, final String needle)
-            throws URISyntaxException, MalformedURLException,
-            InterruptedException, ExecutionException {
+    public Set<URI> crawl(URI currentLocation, final String needle, AtomicInteger parentInt) throws URISyntaxException, MalformedURLException, InterruptedException, ExecutionException { 
         Set<URI> finalResult = Collections.synchronizedSet(new HashSet<URI>());
+//      visitedUrls.add(currentLocation);
         String urlContents = downloadContents(currentLocation);
-        visitedUrls.add(currentLocation);
-
         if (urlContents.contains(needle)) {
             // return
             finalResult.add(currentLocation);
@@ -41,18 +45,73 @@ public class WebCrawler {
         {
             Set<String> allLinks = getAllLinks(urlContents);
             removeNotNeededLinks(allLinks);
-            for (String link : allLinks) {
-                final URI asUri = normalizeLink(currentLocation, link);
-                if (asUri != null && !visitedUrls.contains(asUri)
-                        && isInsideDomain(currentLocation, asUri)) {
-                    Set<URI> result = crawl(asUri, needle);
-                    if (result != null) {
-                        finalResult.addAll(result);
-                    }
+            
+            AtomicInteger i = new AtomicInteger();
+            List<URI> filterURIs = filterURIs(currentLocation, allLinks);
+            List<Future<Set<URI>>> futures = new ArrayList<Future<Set<URI>>>();
+            for (URI link : filterURIs) {
+                if (!visitedUrls.contains(link)) { // visitedUrls.add(currentLocation);
+                    i.incrementAndGet();
+                    futures.add(service.submit( () -> {
+                        Set<URI> crawl = crawl(link, needle, i);
+                        i.decrementAndGet();
+                        // parent notify
+                        synchronized (i) {
+                            i.notify();
+                        }
+                        return crawl;
+                    }));
+                }
+            }
+            
+
+            // while children not finished - wait
+            // don't wait if children not started
+            while (!i.compareAndSet(0, 0)) {
+                synchronized (i) {
+                    i.wait();
+                }
+            }
+            
+            for (Future<Set<URI>> resultFuture : futures) {
+                Set<URI> result = resultFuture.get();
+                if (!result.isEmpty()) {
+                    finalResult.addAll(result);
                 }
             }
         }
         return finalResult;
+    }
+
+    private List<URI> filterURIs(URI currentLocation, Set<String> allLinks) {
+        List<? extends Object> filteredLinks = allLinks.stream().map(
+                link -> {
+                    try {
+                        return normalizeLink(currentLocation, link);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                })
+                .filter(link -> {
+                    return link != null;
+                })
+                .filter(url -> {
+                    try {
+                        return isInsideDomain(currentLocation, (URI)url);
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                        return false;
+                    }
+                }) 
+                .collect(Collectors.toList());
+        
+        List<URI> res = new ArrayList<URI>();
+        for (Object uri : filteredLinks) {
+            res.add((URI)uri);
+        }
+        return res;
     }
     
     private void removeNotNeededLinks(Set<String> allLinks) {
@@ -158,5 +217,9 @@ public class WebCrawler {
 //      if (!result)
 //          System.out.println("uri:" +uri +" "+visitedUrls);
         return result;
+    }
+
+    public void visit(URI loc) {
+        visitedUrls.add(loc);
     }
 }
